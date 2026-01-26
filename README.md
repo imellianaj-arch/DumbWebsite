@@ -1,0 +1,2 @@
+# DumbWebsite
+Website for fun.
