@@ -148,6 +148,29 @@
         .gallery-item img { width: 100%; height: 100%; object-fit: cover; }
         .gallery-item.hidden { display: none; }
 
+        /* TOMBOL HAPUS FOTO GALERI */
+        .btn-delete-foto {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background-color: var(--danger-red);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+            transition: 0.3s;
+            z-index: 10;
+        }
+        .btn-delete-foto:hover { transform: scale(1.1); background-color: #c0392b; }
+        .gallery-item:hover .btn-delete-foto { display: flex; }
+
         /* --- BLOG --- */
         .blog-intro { text-align: center; margin-bottom: 50px; }
         .blog-disclaimer { background: #ffeaa7; border-left: 5px solid #fdcb6e; padding: 15px; margin: 20px auto; max-width: 700px; font-style: italic; border-radius: 5px; text-align: left; }
@@ -157,12 +180,11 @@
         .horizontal-scroll { display: flex; overflow-x: auto; gap: 20px; padding: 10px 5px 20px 5px; scrollbar-width: thin; }
         .quote-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; }
         .quote-card { background: white; padding: 20px; border-radius: 15px; border-top: 5px solid var(--semangat-yellow); box-shadow: 0 5px 15px rgba(0,0,0,0.05); font-style: italic; font-weight: 500; display: flex; align-items: center; justify-content: center; text-align: center; min-height: 120px; }
-        .article-card { min-width: 280px; width: 280px; background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.05); cursor: pointer; transition: 0.3s; flex-shrink: 0; }
-        .article-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
-        .article-img { width: 100%; height: 160px; object-fit: cover; }
-        .article-info { padding: 15px; }
-        .article-title { font-weight: 800; font-size: 1.1rem; line-height: 1.3; margin-bottom: 5px; }
-        .article-meta { font-size: 0.8rem; color: #888; }
+        .article-card { min-width: 280px; width: 280px; min-height: 120px; background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.05); cursor: pointer; transition: 0.3s; flex-shrink: 0; display: flex; flex-direction: column; justify-content: center;}
+        .article-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); border: 1px solid var(--accent-green); }
+        .article-info { padding: 20px; text-align: center;}
+        .article-title { font-weight: 800; font-size: 1.2rem; line-height: 1.3; margin-bottom: 5px; }
+        .article-meta { font-size: 0.85rem; color: #888; }
         .book-card { min-width: 200px; width: 200px; cursor: pointer; transition: 0.3s; flex-shrink: 0; text-align: center; }
         .book-card:hover { transform: scale(1.03); }
         .book-cover { width: 100%; height: 300px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.2); object-fit: cover; margin-bottom: 10px; }
@@ -171,7 +193,7 @@
         .simple-form.show { display: block; }
         .toggle-form-btn { background: transparent; border: 2px solid var(--primary-text); color: var(--primary-text); padding: 5px 15px; border-radius: 20px; cursor: pointer; font-weight: bold; font-size: 0.8rem; margin-bottom: 10px; }
         .toggle-form-btn:hover { background: var(--primary-text); color: white; }
-        .blog-detail-view { display: none; padding: 20px; background: white; border-radius: 20px; box-shadow: 0 5px 30px rgba(0,0,0,0.1); margin-top: -20px; animation: fadeIn 0.5s; }
+        .blog-detail-view { display: none; padding: 30px; background: white; border-radius: 20px; box-shadow: 0 5px 30px rgba(0,0,0,0.1); margin-top: -20px; animation: fadeIn 0.5s; }
         .detail-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px; border-bottom: 1px solid #eee; padding-bottom: 20px; }
         .back-btn { background: #eee; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-weight: bold; }
         .detail-content-body { font-size: 1.1rem; line-height: 1.8; color: #333; white-space: pre-wrap; }
@@ -180,7 +202,7 @@
         .chapter-item:hover { background: #eee; transform: translateX(5px); }
         .chapter-read-nav { display: flex; justify-content: space-between; margin-top: 40px; padding-top: 20px; border-top: 1px solid #ddd; }
 
-        /* --- FAVORIT (DIPERBARUI) --- */
+        /* --- FAVORIT --- */
         .fav-header { text-align: center; margin-bottom: 40px; }
         .fav-category-block { margin-bottom: 50px; }
         .fav-cat-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #eee; padding-bottom: 10px; margin-bottom: 20px; }
@@ -195,32 +217,26 @@
         .fav-icon { font-size: 1.2rem; color: var(--button-green); width: 30px; text-align: center; }
         .fav-text { font-weight: 500; font-size: 1rem; }
         
-        /* Movie Tracker Specific */
         .movie-card { background: white; padding: 15px; border-radius: 10px; border: 1px solid #eee; cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: space-between; }
         .movie-card:hover { border-color: var(--button-green); }
         .movie-card.watched { background: #e6fffa; opacity: 0.8; }
         .movie-card.watched .movie-title { text-decoration: line-through; color: #888; }
         .check-circle { width: 24px; height: 24px; border-radius: 50%; border: 2px solid #ccc; display: flex; align-items: center; justify-content: center; color: transparent; transition: 0.3s; }
         .movie-card.watched .check-circle { background: var(--success-blue); border-color: var(--success-blue); color: white; }
-
-        /* Grid for Movies/Series/Books */
         .fav-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px; }
 
-        /* --- UNTUKKU (NEW SECTION) --- */
+        /* --- UNTUKKU --- */
         .letter-container { background: white; padding: 40px; border-radius: 5px; box-shadow: 0 5px 20px rgba(0,0,0,0.05); position: relative; margin-bottom: 40px; border: 1px solid #eee; }
         .letter-container::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 5px; background: repeating-linear-gradient(45deg, var(--danger-red), var(--danger-red) 10px, white 10px, white 20px, var(--success-blue) 20px, var(--success-blue) 30px, white 30px, white 40px); }
         .letter-title { font-family: 'Fredoka', sans-serif; font-size: 1.8rem; text-align: center; margin-bottom: 30px; color: var(--primary-text); }
         .letter-body { white-space: pre-line; font-size: 1.1rem; color: #444; line-height: 1.9; }
-        
         .goals-list { list-style: none; margin-top: 20px; }
         .goals-list li { margin-bottom: 12px; display: flex; align-items: flex-start; gap: 10px; }
         .goals-list li i { color: var(--danger-red); margin-top: 5px; }
-        
         .reminder-box { background: #fffbe6; padding: 30px; border-radius: 15px; text-align: center; border: 2px dashed #f1c40f; }
         .reminder-list { list-style: none; margin-top: 20px; display: inline-block; text-align: left; }
         .reminder-list li { margin-bottom: 10px; font-size: 1.1rem; }
 
-        /* Form Overlay Generic */
         .fav-form-overlay { display: none; margin-top: 10px; padding: 15px; background: #f9f9f9; border-radius: 10px; animation: fadeIn 0.3s; }
         .fav-input { width: 70%; padding: 8px; border: 1px solid #ccc; border-radius: 5px; margin-right: 5px; }
         .fav-save-btn { padding: 8px 15px; background: var(--primary-text); color: white; border: none; border-radius: 5px; cursor: pointer; }
@@ -281,7 +297,7 @@
                 <div class="home-text">
                     <h1>Halo, aku Meimei👋</h1>
                     <h2>Ini hidupku… versi website.</h2>
-                    <p class="subtitle">Traveller • Suka Rebahan • Overthinker Produktif • Sok sibuk tapi capek • dan laen-laen...</p>
+                    <p class="subtitle">Traveller • Suka Rebahan • Overthinker Produktif • Sok sibuk • dan laen-laen...</p>
                     <div class="desc-box"><p>Selamat datang di website yang isinya aku, bukan AI, bukan tokoh fiksi, cuma manusia yang kepikiran bikin website buat kegabutan.</p></div>
                     <div class="warning-box">⚠️ <b>Peringatan:</b> isi website ini random, tidak terstruktur, dan penuh perasaan. Scroll pelan-pelan, nggak usah buru-buru ☕</div>
                 </div>
@@ -324,7 +340,7 @@
                             <li><i class="fas fa-check icon-check"></i> Manusiawi</li>
                             <li><i class="fas fa-check icon-check"></i> Ingatan setengah hidup</li>
                             <li><i class="fas fa-check icon-check"></i> Bukan AI, bukan fiksi</li>
-                            <li><i class="fas fa-check icon-check"></i> Kadang lucu, kadang capek</li>
+                            <li><i class="fas fa-check icon-check"></i> Kadang lucu, kadang garing</li>
                             <li><i class="fas fa-check icon-check"></i> Kadang ya kadang-kadang</li>
                         </ul>
                     </div>
@@ -335,7 +351,7 @@
 
         <section id="tentangku">
             <div class="about-content">
-                <p style="text-align: center; margin-bottom: 30px; font-style: italic;">Halaman ini dibuat saat akal sehat cuti, tapi jari tetap kerja...</p>
+                <p style="text-align: center; margin-bottom: 30px; font-style: italic;">"Produk dari sisa-sisa tenaga setelah logika memutuskan untuk tidur lebih awal.</p>
                 <div class="divider"></div>
                 <h3 class="section-title-big">Aku siapa sih?</h3>
                 <p>Pertanyaan yang simpel tapi jawabannya panjang.</p>
@@ -343,7 +359,7 @@
                 <p><b>Aku Meimei</b> (lengkapnya <b>Imeliana Jopi</b> biar formal dikit).<br>Manusia biasa yang:</p>
                 <ul style="margin-left: 20px;">
                     <li>Suka mikir kebanyakan</li>
-                    <li>Sok sibuk tapi capek</li>
+                    <li>Sok sibuk sih kadang</li>
                     <li>Cerdas parah tapi goblok juga sih</li>
                     <li>Pengen hidup tenang tapi otak berisik</li>
                     <li>Niat berubah, tapi gapernah berubah-berubah</li>
@@ -351,18 +367,18 @@
                 <br>
                 <p>Bukan tokoh utama film Hollywood. Bukan juga karakter rapi di Pinterest.</p>
                 <p>Cuma orang yang lagi menjalani hidup dengan "metode trial & error & error lagi & pura-pura belajar."    
-                    <br>Kadang niat, kadang binggung, kadang benggong. Ya begitulah hidup ini!</p>
+                    <br>Kadang niat, kadang binggung, kadang benggong. begitulah!</p>
                 <div class="divider"></div>
                 <h3 class="section-title-big">🎲 Hal Random Tentangku!</h3>
                 <p>Beberapa fakta penting yang tidak penting:</p>
                 <ul style="margin-left: 20px; line-height: 1.8;">
                     <li>Bisa ketawa sendiri karna mikir hal random;</li>
                     <li>Sering ngerasa capek tanpa sebab;</li>
-                    <li>Kalau udah nyaman, susah diem;</li>
+                    <li>Kalau udah senang, susah diem;</li>
                     <li>Overthinking tapi sok santai;</li>
-                    <li>Bisa produktif… kalau moodnya kebetulan lewat;</li>
+                    <li>Bisa produktif poll… kalau moodnya kebetulan lewat;</li>
                     <li>Minum kopi tapi tetep ngantuk;</li>
-                    <li>Suka bilang “aman” padahal “g aman”;</li>
+                    <li>Suka bilang “aman” padahal “ga aman”;</li>
                     <li>Suka tiba-tiba sinis sih, padahal biasa aja;</li>
                     <li>MBTInya "ENFJ" (Extraverted, Intuitive, Feeling, Judging);</li>
                     <li>Lebih Ekstrovert sebenarnya, walau introvert juga kalau malas/ga cocok;</li>
@@ -373,29 +389,29 @@
                 <div class="divider"></div>
                 <h3 class="section-title-big">🕰️ Timeline Hidup</h3>
                 <div class="timeline">
-                    <div class="timeline-item"><span class="year">2004</span> → Lahir, tepatnya 27 April. Masih bayi. Belum mikir apa-apa. Hidup damai. Puncak ketenangan.</div>
-                    <div class="timeline-item"><span class="year">2005</span> → Masih bayi tapi upgrade: bisa nangis lebih keras.</div>
-                    <div class="timeline-item"><span class="year">2006</span> → Mulai sadar dunia ini terang dan ribut.</div>
+                    <div class="timeline-item"><span class="year">2004</span> → Resmi rilis ke dunia. Masih bayi. Hidup damai. Definisi puncak ketenangan.</div>
+                    <div class="timeline-item"><span class="year">2005</span> → Masih free trial kehidupan; makan, tidur, nangis..</div>
+                    <div class="timeline-item"><span class="year">2006</span> → Batal jadi anak terakhir, karna adikku lahir</div>
                     <div class="timeline-item"><span class="year">2007</span> → Jalan sambil jatuh. Hidup dimulai.</div>
                     <div class="timeline-item"><span class="year">2008</span> → Mulai kenal kata “jangan”.</div>
-                    <div class="timeline-item"><span class="year">2009</span> → Punya pendapat, walau nggak ditanya.</div>
-                    <div class="timeline-item"><span class="year">2010</span> → Merasa diri paling jago sedunia (padahal belum).</div>
+                    <div class="timeline-item"><span class="year">2009</span> → Punya bestie di TK, namanya Ria.</div>
+                    <div class="timeline-item"><span class="year">2010</span> → Masa transisi ke SD. Merasa paling jagoan karena udah bisa baca.</div>
                     <div class="timeline-item"><span class="year">2011</span> → Mulai ngerti malu dan suka ngebully.</div>
                     <div class="timeline-item"><span class="year">2012</span> → Punya mimpi aneh-aneh.</div>
-                    <div class="timeline-item"><span class="year">2013</span> → Sok dewasa, masih bocil.</div>
-                    <div class="timeline-item"><span class="year">2014</span> → Mulai mikir: “kok hidup gini ya?”</div>
+                    <div class="timeline-item"><span class="year">2013</span> → Sok dewasa, padahal masih bocil.</div>
+                    <div class="timeline-item"><span class="year">2014</span> → Punya opini untuk segala hal, meskipun tidak ada yang nanya.</div>
                     <div class="timeline-item"><span class="year">2015</span> → Ketawa masih gampang.</div>
-                    <div class="timeline-item"><span class="year">2016</span> → Disukai banyak cowok padahal diri kaya cowok dan legam.</div>
+                    <div class="timeline-item"><span class="year">2016</span> → Disukai banyak cowok padahal diri ini kaya cowok dan legam.</div>
                     <div class="timeline-item"><span class="year">2017</span> → Liar kaya binatang dan penuh masalah.</div>
-                    <div class="timeline-item"><span class="year">2018</span> → Galau karena sang crush nembak teman sendiri bangsat.</div>
-                    <div class="timeline-item"><span class="year">2019</span> → Sok kuat. Lumayan berhasil pura-pura.</div>
+                    <div class="timeline-item"><span class="year">2018</span> → Galau karena sang crush confess ke teman sendiri bangsat.</div>
+                    <div class="timeline-item"><span class="year">2019</span> → Sok kuat. Lumayanlah berhasil pura-pura.</div>
                     <div class="timeline-item"><span class="year">2020</span> → Dunia pause, otak malah full speed.</div>
                     <div class="timeline-item"><span class="year">2021</span> → Mulai ngerasa: hidup ternyata serius.</div>
                     <div class="timeline-item"><span class="year">2022</span> → Banyak belajar, banyak bengong.</div>
-                    <div class="timeline-item"><span class="year">2023</span> → Sok produktif. Lumayan capek.</div>
-                    <div class="timeline-item"><span class="year">2024</span> → Ikut ini itu. Sibuk, tapi tetap bertanya: “gue ngapain?”</div>
+                    <div class="timeline-item"><span class="year">2023</span> → Sok produktif. Lumayan capek juga sih.</div>
+                    <div class="timeline-item"><span class="year">2024</span> → Masuk kepala dua. Ikut semua hal sampai lupa tujuan utama.</div>
                     <div class="timeline-item"><span class="year">2025</span> → Kejebak intern. Seru sih. Sedikit anjing, tapi berfaedah.</div>
-                    <div class="timeline-item"><span class="year">2026</span> → Masih ngeramal + agak panik karena udah makin tua.</div>
+                    <div class="timeline-item"><span class="year">2026</span> → Agak panik karena udah makin tua.</div>
                 </div>
                 <div class="divider"></div>
                 <p>Timeline ini tidak menjamin hidup yang rapi, tapi menjamin kejujuran.</p>
@@ -409,13 +425,21 @@
             <h1>Galeri Kenangan 📸</h1>
             <p>Kumpulan bukti-bukti kehidupan.</p>
             <br>
+            
             <div class="gallery-filter-container" id="categoryFilters"></div>
+            
             <div class="upload-box">
-                <div class="upload-title">Upload Foto Baru</div>
-                <div class="upload-form-group"><input type="file" id="imageInput" accept="image/*" class="form-control" style="padding: 8px;"></div>
+                <div class="upload-title">Upload Foto</div>
                 <div class="upload-form-group">
-                    <label>Pilih Kategori untuk foto ini:</label>
-                    <select id="imgCategorySelect" class="form-control"></select>
+                    <input type="file" id="imageInput" accept="image/*" class="form-control" style="padding: 8px;">
+                </div>
+                <div class="upload-form-group">
+                    <label>Pilih Kategori:</label>
+                    <select id="imgCategorySelect" class="form-control">
+                        <option value="Jejak Kaki">Jejak Kaki</option>
+                        <option value="Foto Saya">Foto Saya</option>
+                        <option value="Temen">Temen</option>
+                    </select>
                 </div>
                 <div class="upload-form-group">
                     <label>Atau buat kategori baru...</label>
@@ -424,40 +448,125 @@
                         <button onclick="addNewCategory()" class="btn-add-cat">+</button>
                     </div>
                 </div>
-                <div class="small-note">Foto hanya tersimpan di browser ini (Local Storage).</div>
+                <button onclick="uploadFoto()" style="margin-top: 15px; padding: 10px 20px; background: black; color: white; border: none; border-radius: 5px; cursor: pointer;">Simpan Foto</button>
+                <div class="small-note" style="margin-top: 10px; font-size: 0.8rem;">Foto hanya tersimpan di browser ini (Local Storage).</div>
             </div>
+
             <div class="gallery-grid" id="galleryGrid">
-                <div class="gallery-item" data-category="Jejak Kaki" onclick="openModal(this)"><img src="Fotoku2.jpg" alt="Jalan2"></div>
-                <div class="gallery-item" data-category="Jejak Kaki" onclick="openModal(this)"><img src="Fotoku3.jpg" alt="Jalan1"></div>
-                <div class="gallery-item" data-category="Foto Saya" onclick="openModal(this)"><img src="Fotoku1.jpeg" alt="Saya"></div>
-                <div class="gallery-item" data-category="Temen" onclick="openModal(this)"><img src="Foto Temen1.jpg" alt="Temen1"></div>
-                <div class="gallery-item" data-category="Temen" onclick="openModal(this)"><img src="FotoTemen2.jpg" alt="Temen2"></div>
-                
-            </div>
-        </section>
+               </div>
+        </section>  
 
         <section id="blog">
             <div id="blogMainView">
                 <div class="blog-intro">
                     <h1>🧠Tempat Numpang Mikir🧠</h1>
                     <p>Kalau kamu baca sampai akhir, Selamat! Kamu Hebat bisa bertahan...</p>
-                    <div class="blog-disclaimer">🚨Disclaimer: Tidak semua tulisan di sini lahir dari pikiran sehat. Sebagian besar hasil overthinking + kopi. ☕</div>
+                    <div class="blog-disclaimer">🚨Disclaimer: Tidak semua tulisan di sini lahir dari pikiran sehat. Sebagian besar hasil overthinking☕</div>
                 </div>
-                <div class="blog-category-section"><div class="blog-cat-title">💭 Random Thoughts & Quotes</div><p class="blog-cat-desc">Isi kepala yang muncul tiba-tiba. Bukan motivator, cuma pengamat hidup.</p><button onclick="toggleForm('formQuote')" class="toggle-form-btn">+ Tambah Quote</button><div id="formQuote" class="simple-form"><textarea id="quoteInput" rows="3" placeholder="Tulis quote random mu..."></textarea><button class="btn-save" onclick="addQuote()">Simpan</button></div><div class="quote-grid" id="quoteGrid"></div></div>
-                <div class="blog-category-section"><div class="blog-cat-title">😶 Curhatan Mini</div><p class="blog-cat-desc">Curhat tapi versi hemat kuota.</p><button onclick="toggleForm('formCurhat')" class="toggle-form-btn">+ Tambah Curhatan</button><div id="formCurhat" class="simple-form"><input type="text" id="curhatTitle" placeholder="Judul Curhatan"><input type="file" id="curhatImg" accept="image/*"><textarea id="curhatContent" rows="5" placeholder="Isi curhatan..."></textarea><button class="btn-save" onclick="addArticle('curhat')">Simpan</button></div><div class="horizontal-scroll" id="curhatScroll"></div></div>
-                <div class="blog-category-section"><div class="blog-cat-title">🔬 Ilmu Pengetahuan</div><p class="blog-cat-desc">Aku tau ini terdengar serius, tapi santai… aku juga.</p><button onclick="toggleForm('formIlmu')" class="toggle-form-btn">+ Tambah Ilmu</button><div id="formIlmu" class="simple-form"><input type="text" id="ilmuTitle" placeholder="Judul Pengetahuan"><input type="file" id="ilmuImg" accept="image/*"><textarea id="ilmuContent" rows="5" placeholder="Isi pengetahuan..."></textarea><button class="btn-save" onclick="addArticle('ilmu')">Simpan</button></div><div class="horizontal-scroll" id="ilmuScroll"></div></div>
-                <div class="blog-category-section"><div class="blog-cat-title">📚 Buku Ku</div><p class="blog-cat-desc">Kalau hidup terlalu nyata, aku pindah sebentar ke dunia yang aku buat sendiri.</p><button onclick="toggleForm('formBuku')" class="toggle-form-btn">+ Tambah Cerita Baru</button><div id="formBuku" class="simple-form"><input type="text" id="storyTitle" placeholder="Judul Cerita"><input type="file" id="storyCover" accept="image/*"><h4>Chapter 1 Awal</h4><input type="text" id="chap1Title" placeholder="Judul Chapter 1"><textarea id="chap1Content" rows="5" placeholder="Isi Chapter 1..."></textarea><button class="btn-save" onclick="addStory()">Terbitkan</button></div><div class="horizontal-scroll" id="bukuScroll"></div></div>
+                
+                <div class="blog-category-section">
+                    <div class="blog-cat-title">💭 Random Thoughts & Quotes</div>
+                    <p class="blog-cat-desc">Isi kepala yang muncul tiba-tiba. Bukan motivator, cuma pengamat hidup.</p>
+                    <button onclick="toggleForm('formQuote')" class="toggle-form-btn">+ Tambah Quote</button>
+                    <div id="formQuote" class="simple-form">
+                        <textarea id="quoteInput" rows="3" placeholder="Tulis quote random mu..."></textarea>
+                        <button class="btn-save" onclick="addQuote()">Simpan</button>
+                    </div>
+                    <div class="quote-grid" id="quoteGrid"></div>
+                </div>
+                
+                <div class="blog-category-section">
+                    <div class="blog-cat-title">😶 Curhatan Mini</div>
+                    <p class="blog-cat-desc">Curhat tapi versi digital.</p>
+                    <button onclick="toggleForm('formCurhat')" class="toggle-form-btn">+ Tambah Curhatan</button>
+                    <div id="formCurhat" class="simple-form">
+                        <input type="text" id="curhatTitle" placeholder="Judul Curhatan">
+                        <textarea id="curhatContent" rows="5" placeholder="Isi curhatan..."></textarea>
+                        <button class="btn-save" onclick="addArticle('curhat')">Simpan</button>
+                    </div>
+                    <div class="horizontal-scroll" id="curhatScroll"></div>
+                </div>
+                
+                <div class="blog-category-section">
+                    <div class="blog-cat-title">🔬 Ilmu Pengetahuan</div>
+                    <p class="blog-cat-desc">Jangan tertipu gaya bahasanya yang serius.</p>
+                    <button onclick="toggleForm('formIlmu')" class="toggle-form-btn">+ Tambah Ilmu</button>
+                    <div id="formIlmu" class="simple-form">
+                        <input type="text" id="ilmuTitle" placeholder="Judul Pengetahuan">
+                        <textarea id="ilmuContent" rows="5" placeholder="Isi pengetahuan..."></textarea>
+                        <button class="btn-save" onclick="addArticle('ilmu')">Simpan</button>
+                    </div>
+                    <div class="horizontal-scroll" id="ilmuScroll"></div>
+                </div>
+                
+                <div class="blog-category-section">
+                    <div class="blog-cat-title">📚 Buku Ku</div>
+                    <p class="blog-cat-desc">Kalau hidup terlalu nyata, aku pindah sebentar ke dunia yang aku buat sendiri.</p>
+                    <button onclick="toggleForm('formBuku')" class="toggle-form-btn">+ Tambah Cerita Baru</button>
+                    <div id="formBuku" class="simple-form">
+                        <input type="text" id="storyTitle" placeholder="Judul Cerita">
+                        <input type="file" id="storyCover" accept="image/*">
+                        <h4>Chapter 1 Awal</h4>
+                        <input type="text" id="chap1Title" placeholder="Judul Chapter 1">
+                        <textarea id="chap1Content" rows="5" placeholder="Isi Chapter 1..."></textarea>
+                        <button class="btn-save" onclick="addStory()">Terbitkan</button>
+                    </div>
+                    <div class="horizontal-scroll" id="bukuScroll"></div>
+                </div>
             </div>
-            <div id="articleDetailView" class="blog-detail-view"><div class="detail-header"><button class="back-btn" onclick="closeBlogDetail()">< Kembali</button><span id="detailDate" style="color:#888;"></span></div><img id="detailImg" src="" style="width:100%; height:300px; object-fit:cover; border-radius:10px; margin-bottom:20px;"><h1 id="detailTitle" style="font-size:2rem; margin-bottom:20px;"></h1><div id="detailContent" class="detail-content-body"></div></div>
-            <div id="storyDetailView" class="blog-detail-view"><div class="detail-header"><button class="back-btn" onclick="closeBlogDetail()">< Daftar Buku</button></div><div style="display:flex; gap:20px; flex-wrap:wrap; margin-bottom:30px;"><img id="storyDetailCover" src="" style="width:150px; height:220px; object-fit:cover; border-radius:10px; box-shadow:0 5px 15px rgba(0,0,0,0.2);"><div style="flex:1;"><h1 id="storyDetailTitle" style="font-size:2rem;"></h1><p style="color:#666;">Total Chapter: <span id="storyTotalChap"></span></p><br><button class="toggle-form-btn" onclick="toggleForm('formAddChap')">+ Tambah Chapter</button><div id="formAddChap" class="simple-form" style="margin-top:10px;"><input type="text" id="newChapTitle" placeholder="Judul Chapter Baru"><textarea id="newChapContent" rows="5" placeholder="Isi Cerita..."></textarea><button class="btn-save" onclick="addNewChapter()">Simpan Chapter</button></div></div></div><h3>Daftar Chapter</h3><div id="chapterListContainer" class="chapter-list"></div></div>
-            <div id="chapterReadView" class="blog-detail-view"><div class="detail-header"><button class="back-btn" onclick="backToStoryDetail()">< List Chapter</button><span id="readChapDate" style="color:#888;"></span></div><h2 id="readStoryTitle" style="color:#888; font-size:1rem; text-transform:uppercase;"></h2><h1 id="readChapTitle" style="font-size:2rem; margin:10px 0 30px 0;"></h1><div id="readChapContent" class="detail-content-body" style="font-family:'Georgia', serif; font-size:1.2rem;"></div><div class="chapter-read-nav"><button id="btnPrevChap" class="btn-save" style="background:#888;">Previous</button><button id="btnNextChap" class="btn-save">Next Chapter</button></div></div>
+            
+            <div id="articleDetailView" class="blog-detail-view">
+                <div class="detail-header">
+                    <button class="back-btn" onclick="closeBlogDetail()">< Kembali</button>
+                    <span id="detailDate" style="color:#888;"></span>
+                </div>
+                <img id="detailImg" src="" style="display:none; width:100%; height:300px; object-fit:cover; border-radius:10px; margin-bottom:20px;">
+                <h1 id="detailTitle" style="font-size:2rem; margin-bottom:20px;"></h1>
+                <div id="detailContent" class="detail-content-body"></div>
+            </div>
+            
+            <div id="storyDetailView" class="blog-detail-view">
+                <div class="detail-header">
+                    <button class="back-btn" onclick="closeBlogDetail()">< Daftar Buku</button>
+                </div>
+                <div style="display:flex; gap:20px; flex-wrap:wrap; margin-bottom:30px;">
+                    <img id="storyDetailCover" src="" style="width:150px; height:220px; object-fit:cover; border-radius:10px; box-shadow:0 5px 15px rgba(0,0,0,0.2);">
+                    <div style="flex:1;">
+                        <h1 id="storyDetailTitle" style="font-size:2rem;"></h1>
+                        <p style="color:#666;">Total Chapter: <span id="storyTotalChap"></span></p>
+                        <br>
+                        <button class="toggle-form-btn" onclick="toggleForm('formAddChap')">+ Tambah Chapter</button>
+                        <div id="formAddChap" class="simple-form" style="margin-top:10px;">
+                            <input type="text" id="newChapTitle" placeholder="Judul Chapter Baru">
+                            <textarea id="newChapContent" rows="5" placeholder="Isi Cerita..."></textarea>
+                            <button class="btn-save" onclick="addNewChapter()">Simpan Chapter</button>
+                        </div>
+                    </div>
+                </div>
+                <h3>Daftar Chapter</h3>
+                <div id="chapterListContainer" class="chapter-list"></div>
+            </div>
+            
+            <div id="chapterReadView" class="blog-detail-view">
+                <div class="detail-header">
+                    <button class="back-btn" onclick="backToStoryDetail()">< List Chapter</button>
+                    <span id="readChapDate" style="color:#888;"></span>
+                </div>
+                <h2 id="readStoryTitle" style="color:#888; font-size:1rem; text-transform:uppercase;"></h2>
+                <h1 id="readChapTitle" style="font-size:2rem; margin:10px 0 30px 0;"></h1>
+                <div id="readChapContent" class="detail-content-body" style="font-family:'Georgia', serif; font-size:1.2rem;"></div>
+                <div class="chapter-read-nav">
+                    <button id="btnPrevChap" class="btn-save" style="background:#888;">Previous</button>
+                    <button id="btnNextChap" class="btn-save">Next Chapter</button>
+                </div>
+            </div>
         </section>
 
         <section id="favorit">
             <div class="fav-header">
                 <h2 style="font-size: 2.0rem;">⭐My List</h2>
-                <p>Daftar unggulan Versi aku. Versi Real. Versi Manusia. Versi Meimei.</p>
-                <div class="blog-disclaimer">⚠️ Disclaimer: Daftar ini bisa berubah tergantung mood, cuaca, dan kondisi mental.</div>
+                <p>Daftar unggulan Versi Aku. Versi Real. Versi Manusia. Versi Meimei.</p>
+                <div class="blog-disclaimer">⚠️ Disclaimer: Daftar ini bisa berubah tergantung mood dan kondisi mental.</div>
             </div>
 
             <div class="fav-category-block">
@@ -481,7 +590,7 @@
                     <div class="fav-cat-title"><i class="fas fa-film"></i> Film</div>
                     <button class="fav-add-btn" onclick="toggleForm('formFavFilm')">+</button>
                 </div>
-                <p style="margin-bottom:15px; color:#666;">Teman hidup 2 jam. (Yang ditandai itu udah selesai ditonton).</p>
+                <p style="margin-bottom:15px; color:#666;">Teman hidup 2 jam. (Yang ditandai udah selesai ditonton).</p>
                 <div id="formFavFilm" class="fav-form-overlay">
                     <input type="text" id="inputFilm" class="fav-input" placeholder="Judul Film">
                     <button class="fav-save-btn" onclick="addFavItem('film')">Simpan</button>
@@ -536,7 +645,7 @@
                     <div class="fav-cat-title"><i class="fas fa-utensils"></i> Makanan</div>
                     <button class="fav-add-btn" onclick="toggleForm('formFavFood')">+</button>
                 </div>
-                <p style="margin-bottom:15px; color:#666;">Banyak masalah bisa diredam… dengan makan.</p>
+                <p style="margin-bottom:15px; color:#666;">Selesaikan lapar dulu, baru selesaikan masalah..</p>
                 <div id="formFavFood" class="fav-form-overlay">
                     <input type="text" id="inputFood" class="fav-input" placeholder="Nama Makanan">
                     <button class="fav-save-btn" onclick="addFavItem('food')">Simpan</button>
@@ -550,28 +659,26 @@
         <section id="untukku">
             <h2 style="text-align:center; font-size:2.5rem; margin-bottom:20px;">💌 UNTUKKU</h2>
             <div class="desc-box" style="text-align:center;">
-                <p>Halaman ini dibuat bukan karena hidup mudah, tapi karena aku mau tetap inget bahwa aku layak baik-baik aja.<br>
-                Kalau kamu baca ini sambil senyum kecil, berarti pesan ini sampai 🫂</p>
+                <p>Ruang ini dibuat untuk mendokumentasikan bahwa kelayakan diri tidak bergantung pada seberapa mudah hidup berjalan.<br>
+                Kalau kamu membacanya dan merasa sedikit lebih ringan, berarti pesannya sampai🫂</p>
                 <br>
-                <p style="font-size:0.9rem; color:#666;">Halaman ini bukan buat orang lain. Tapi kalau kamu nyasar ke sini… yaudah baca aja.</p>
+                <p style="font-size:0.9rem; color:#666;">Bukan untuk orang lain, tapi untukku wkwkwk.</p>
             </div>
 
             <div class="letter-container">
-                <div class="letter-title"><b>Pesan untuk Diri Sendiri di Masa Depan</b></div>
+                <div class="letter-title"><b>Pesan untukku di Masa Depan</b></div>
                 <div class="letter-body">
 <b>Halo kamu, yang membaca ini di masa depan.</b>
 
-Kalau hidup terasa berat, ingatlah: kamu sudah melewati hari-hari yang sulit, dan itu bukan kebetulan. Setiap langkahmu meski kecil, meski goyah adalah bukti bahwa kamu berani. Bingung itu wajar, tanda kamu masih hidup, masih peduli, masih mencari arah, dan masih belajar.
+Jika hari ini terasa sedikit lebih berat dari biasanya, ingatlah satu hal: kamu sampai di titik ini bukan karena kebetulan. Setiap langkah yang pernah terasa goyah sebenarnya adalah bukti keberanian yang nyata. Tak apa jika sesekali merasa bingung; itu hanya tanda bahwa kamu masih peduli, masih mencari arah, dan masih terus bertumbuh.
 
-Kamu tidak terlambat. Tidak ada waktu yang sia-sia dari semua yang telah kamu lakukan. Kesalahan, kegagalan, keraguan, semua itu membentukmu, membawamu lebih dekat pada siapa dirimu sebenarnya. Ingat semua rasa takut yang pernah kamu kalahkan, semua keraguan yang pernah kamu lewati, dan semua makian/ejekan/opini bodoh orang yang pernah kamu abaikan.
+Kamu tidak terlambat. Tak ada waktu yang sia-sia dari perjalanan yang sudah kamu tempuh. Kegagalan dan keraguan adalah bagian dari proses yang perlahan-lahan membentuk siapa dirimu hari ini. Ingatlah semua ketakutan yang berhasil kamu jinakkan dan suara-suara sumbang yang akhirnya berhasil kamu abaikan.
 
-Jangan biarkan opini orang menjadi kenyataan dan memperlambatmu. Dengarkan dirimu sendiri, percayai instingmu, dan teruskan langkahmu meski dunia berisik atau langkahmu lambat. Hanya kamu yang tahu jalanmu dan hanya kamu yang paling tau dirimu sendiri. 
+Dunia mungkin akan selalu berisik dengan opini, tapi jangan biarkan itu menjadi penentu langkahmu. Dengarkan intuisimu sendiri. Hanya kamu yang benar-benar memahami medan tempurmu, dan hanya kamu yang paling mengenal kapasitas dirimu.
 
-Hidup bukan tentang sempurna atau siapa yang tercepat, tapi tentang bertahan, belajar, dan terus bergerak. Bahkan ketika jatuh atau ketika tersesat, itu bukan akhir. Teruslah maju, meski perlahan. Teruslah bermimpi, meski takut. 
+Hidup bukan tentang siapa yang paling cepat atau siapa yang paling sempurna. Ini tentang bagaimana kita bertahan, belajar, dan tetap melangkah meski perlahan. Jatuh atau tersesat bukanlah akhir; itu hanya bagian dari navigasi.
 
-Kamu udah sejauh ini, kamu udah bertahan. Jadi jangan remehkan langkahmu sendiri, sekecil apapun itu. Terus jalan, terus coba, terus percaya sama dirimu sendiri.
-
-Hidupmu kamu yang menentukan dan hanya kamu yang bisa merubahnya. <b>You're Strong, Unique, and Unstoppable!</b>
+Teruslah melangkah, sekecil apa pun itu. Jangan remehkan jarak yang sudah kamu tempuh hanya karena kamu merasa belum sampai. Percayalah pada prosesmu sendiri, karena pada akhirnya, kamu adalah penulis tunggal dari ceritamu. Hidupmu kamu yang menentukan dan hanya kamu yang bisa merubahnya. <b>You're Strong, Unique, and Unstoppable!</b>
 <i>25 Jan 2026.</i>
                 </div>
             </div>
@@ -581,13 +688,13 @@ Hidupmu kamu yang menentukan dan hanya kamu yang bisa merubahnya. <b>You're Stro
                     <h3 class="section-title-big">🎯 Target Hidup</h3>
                     <p style="margin-bottom:15px;">Target aku nggak muluk-muluk:</p>
                     <ul class="goals-list">
-                        <li><i class="fas fa-heart"></i> Orang tua dan keluarga Panjang umur (ini doa sih:))</li>
+                        <li><i class="fas fa-heart"></i> Orang tua dan keluarga Panjang umur (Amin...)</li>
+                        <li><i class="fas fa-graduation-cap"></i> Sukses dalam kehidupan, terutama karir</li>
                         <li><i class="fas fa-shield-alt"></i> Hidup aman (uang banyak, koneksi banyak)</li>
                         <li><i class="fas fa-briefcase"></i> Kerja yang bikin capek tapi masuk akal</li>
-                        <li><i class="fas fa-user-clock"></i> Punya waktu buat diri sendiri</li>
                         <li><i class="fas fa-laugh-beam"></i> Ketawa lebih sering dari nangis</li>
                         <li><i class="fas fa-user-friends"></i> Diberkati dengan hadirnya orang/teman yang baik</li>
-                        <li><i class="fas fa-graduation-cap"></i> Bisa S2 di luar negeri dan dapat pekerjaan impian</li>
+                        <li><i class="fas fa-globe"></i> Jalan-jalan ke tempat yang aku mau (keliling dunia)</li>
                         <li><i class="fas fa-ring"></i> Dapat jodoh terbaik sesuai yang kumau, nerima apa adanya, dan panjang umur</li>
                     </ul>
                     <br>
@@ -595,7 +702,7 @@ Hidupmu kamu yang menentukan dan hanya kamu yang bisa merubahnya. <b>You're Stro
                     <ul class="checklist">
                         <li><i class="fas fa-plane"></i> Jalan-jalan tanpa mikir kerja</li>
                         <li><i class="fas fa-bed"></i> Bangun tidur tanpa panik</li>
-                        <li><i class="fas fa-coffee"></i> Hidup yang rasanya tenang</li>
+                        <li><i class="fas fa-coffee"></i> Hidup damai dan tentram</li>
                     </ul>
                 </div>
 
@@ -605,16 +712,18 @@ Hidupmu kamu yang menentukan dan hanya kamu yang bisa merubahnya. <b>You're Stro
                         <ul class="reminder-list">
                             <li>🌱 Kamu boleh capek</li>
                             <li>🌱 Kamu nggak harus kuat terus</li>
-                            <li>🌱 Istirahat bukan kalah</li>
-                            <li>🌱 Berani beda itu luar biaasa!</li>
-                            <li>🌱 Pelan-pelan itu masih jalan</li>
+                            <li>🌱 Istirahat bukan berarti kalah/berhenti</li>
+                            <li>🌱 Berani beda itu luar biasa</li>
+                            <li>🌱 Teruslah maju, meski perlahan</li>
+                            <li>🌱 Teruslah bermimpi, meski takut</li>
+                            <li>🌱 Teruslah berusaha, meski diremehkan</li>
                             <li>🌱 Nasib orang, bukan nasibmu, jangan disamakan</li>
-                            <li>🌱 Hidup bukan lomba, jangan keburu panik</li>
+                            <li>🌱 Hidup bukan lomba, jangan keburu panik karena tertinggal</li>
                             <li>🌱 Tetaplah merasa bodoh, agar terus belajar</li>
-                            <li>🌱 Jangan biarkan orang tau tentang dirimu sepenuhnya</li>
+                            <li>🌱 Jangan biarkan orang tau sepenuhnya tentang kamu</li>
                         </ul>
                         <br>
-                        <p style="font-weight:bold; font-size:1.2rem; color:var(--primary-text);">Ingat kamu sudah sejauh ini! Istirahat boleh, nyerah jangan!!!</p>
+                        <p style="font-weight:bold; font-size:1.2rem; color:var(--primary-text);">Ingat kamu sudah sejauh ini! Istirahat boleh, NYERAH JANGAN!!!</p>
                     </div>
                 </div>
             </div>
@@ -623,9 +732,8 @@ Hidupmu kamu yang menentukan dan hanya kamu yang bisa merubahnya. <b>You're Stro
         <section id="semangat" style="text-align: center; padding-top: 50px;">
             <h1 style="font-size: 3.0rem;">🔥🔥SEMANGAT MEIMEI!🔥🔥</h1>
             <br>
-            <p>Hidup emang kadang anjing, tapi kamu singa!</p>
-            <p>Hidup boleh pahit, tapi kita harus tetap manis!</p>
-            <p>Jangan lupa napas, jangan lupa makan, jangan lupa tidur kalau capek!</p>
+            <p>Hidup boleh pahit, tapi kamu harus tetap manis!</p>
+            <p>Jangan lupa napas, Jangan lupa makan, Jangan lupa tidur kalau capek!</p>
             <br>
             <div style="font-size: 5rem;">💪😎🚀</div>
             <br>
@@ -662,22 +770,28 @@ Hidupmu kamu yang menentukan dan hanya kamu yang bisa merubahnya. <b>You're Stro
     <script>
         // --- JAVASCRIPT: INTERAKSI ---
         
-        // Data Kategori Awal
-        let categories = ["Semua", "Foto Saya", "Dump Foto", "Kerja", "Organisasi", "Temen", "Jejak Kaki", "Hall of Fame", "Estetik", "Chaos"];
+        // Data Kategori Awal Galeri
+        let categories = ["Semua", "Aku", "Keluarga", "Temen"];
         let currentFilter = "Semua";
 
-        // Blog Data Dummy
+        // Blog Data Dummy (GAMBAR DIHILANGKAN)
         let quotesData = ["Capek itu wajar. Aneh kalau nggak.", "Tidur adalah demo paling damai menolak kenyataan.", "Kadang kita butuh tidur, bukan pencerahan."];
+        
         let curhatData = [
-            { id: 1, title: "Rapat Lagi, Rapat Terus", img: "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=500", date: "23 Des 2025", content: "Hari ini rapat sejam penuh, hasilnya satu kalimat yang sebenernya bisa dikirim lewat chat. Aku duduk, angguk-angguk, sambil mikir kapan bisa rebahan. Profesional di luar, lelah di dalam." },
-            { id: 2, title: "Abang Kantor", img: "https://images.unsplash.com/photo-1506784983877-45594efa4cbe?w=500", date: "23 Jul 2025", content: "Sebagai intern, kadang rasanya sendirian banget di kantor. Tapi untungnya ada satu staff yang rasanya kayak abang sendiri. Tempat cerita kalau habis ditegur atasan, tempat ngeluh waktu ngerasa diperlakukan beda, atau pas lihat ada rekan yang lebih difavoritin dikasi hadiah dan lain-lain. Nggak selalu bisa nyelesain masalahnya, tapi dengerin aja udah cukup bikin napas lebih lega." }
+            { id: 1, title: "Rapat Lagi, Rapat Terus", date: "23 Des 2025", content: "Hari ini rapat sejam penuh, hasilnya satu kalimat yang sebenernya bisa dikirim lewat chat." },
         ];
-        let ilmuData = [{ id: 1, title: "Kenapa Langit Biru?", img: "https://unsplash.com/photos/diagram-7hA2wqBcSF8", date: "20 Jan 2026", content: "Sistem informasi adalah gabungan antara manusia, teknologi, data, dan proses yang bekerja bersama untuk mengumpulkan, mengolah, menyimpan, dan menyajikan informasi agar bisa digunakan dalam pengambilan keputusan. Sistem ini bukan hanya soal komputer atau aplikasi, tetapi tentang bagaimana data diubah menjadi informasi yang berguna dan akurat. Dalam praktiknya, sistem informasi membantu meningkatkan efisiensi kerja, mengurangi kesalahan, mempercepat proses bisnis, serta membuat alur kerja menjadi lebih terstruktur. Contoh sistem informasi bisa kita temui sehari-hari, seperti sistem akademik kampus, sistem kasir di toko, sistem absensi karyawan, hingga aplikasi perbankan. Di dunia kerja modern, pemahaman tentang sistem informasi menjadi penting karena hampir semua organisasi bergantung pada sistem ini untuk menjalankan operasional dan mendukung keputusan berbasis data." }];
+        
+        let ilmuData = [{ id: 1, title: "Kenapa Langit Biru?", date: "20 Jan 2026", content: "Sistem informasi adalah gabungan antara manusia, teknologi, data, dan proses yang bekerja bersama untuk mengumpulkan, mengolah, menyimpan, dan menyajikan informasi agar bisa digunakan dalam pengambilan keputusan. Sistem ini bukan hanya soal komputer atau aplikasi, tetapi tentang bagaimana data diubah menjadi informasi yang berguna dan akurat. Dalam praktiknya, sistem informasi membantu meningkatkan efisiensi kerja, mengurangi kesalahan, mempercepat proses bisnis, serta membuat alur kerja menjadi lebih terstruktur. Contoh sistem informasi bisa kita temui sehari-hari, seperti sistem akademik kampus, sistem kasir di toko, sistem absensi karyawan, hingga aplikasi perbankan. Di dunia kerja modern, pemahaman tentang sistem informasi menjadi penting karena hampir semua organisasi bergantung pada sistem ini untuk menjalankan operasional dan mendukung keputusan berbasis data." }];
+        
         let storyData = [{ id: 1, title: "Senja di Ujung Gang", cover: "https://images.unsplash.com/photo-1476275466078-4007374efbbe?w=500", chapters: [{ title: "Chapter 1: Pertemuan", date: "10 Jan 2026", content: "Di ujung gang itu..." }, { title: "Chapter 2: Kehilangan", date: "12 Jan 2026", content: "Tidak ada yang menyangka..." }] }];
         let activeStoryId = null;
 
+        // --- Inisialisasi Data Galeri Local Storage ---
+        let savedPhotos = JSON.parse(localStorage.getItem('duniaMeimeiPhotos')) || [];
+
         document.addEventListener('DOMContentLoaded', () => {
             renderCategories();
+            loadSavedPhotos(); // Load foto galeri
             renderQuotes();
             renderArticles('curhat', curhatData);
             renderArticles('ilmu', ilmuData);
@@ -697,7 +811,7 @@ Hidupmu kamu yang menentukan dan hanya kamu yang bisa merubahnya. <b>You're Stro
             window.scrollTo({top: 0, behavior: 'smooth'});
         }
 
-        // Galeri Functions
+        // --- GALERI FUNCTIONS ---
         function renderCategories() {
             const filterContainer = document.getElementById('categoryFilters');
             const selectDropdown = document.getElementById('imgCategorySelect');
@@ -716,6 +830,7 @@ Hidupmu kamu yang menentukan dan hanya kamu yang bisa merubahnya. <b>You're Stro
                 }
             });
         }
+
         function filterImages(category) {
             currentFilter = category;
             renderCategories();
@@ -725,6 +840,7 @@ Hidupmu kamu yang menentukan dan hanya kamu yang bisa merubahnya. <b>You're Stro
                 if (category === 'Semua' || itemCat === category) { item.classList.remove('hidden'); } else { item.classList.add('hidden'); }
             });
         }
+
         function addNewCategory() {
             const input = document.getElementById('newCatInput');
             const newCatName = input.value.trim();
@@ -732,60 +848,122 @@ Hidupmu kamu yang menentukan dan hanya kamu yang bisa merubahnya. <b>You're Stro
                 categories.push(newCatName); renderCategories(); input.value = ''; alert('Kategori baru ditambahkan: ' + newCatName);
             } else { alert('Kategori sudah ada atau kosong!'); }
         }
-        const imageInput = document.getElementById('imageInput');
-        if(imageInput){
-            imageInput.addEventListener('change', function() {
-                const file = this.files[0];
-                const selectedCat = document.getElementById('imgCategorySelect').value;
-                if (file) {
-                    const reader = new FileReader();
-                    reader.onload = function(e) { createGalleryItem(e.target.result, selectedCat); }
-                    reader.readAsDataURL(file);
-                }
+
+        // Menampilkan foto yang sudah tersimpan
+        function loadSavedPhotos() {
+            savedPhotos.forEach(photo => {
+                createGalleryItem(photo.url, photo.category, photo.id);
             });
         }
-        function createGalleryItem(url, category) {
+
+        // Logika Upload Tombol
+        function uploadFoto() {
+            const fileInput = document.getElementById('imageInput');
+            const file = fileInput.files[0];
+            const selectedCat = document.getElementById('imgCategorySelect').value;
+
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const newPhoto = {
+                        id: Date.now(),
+                        url: e.target.result,
+                        category: selectedCat
+                    };
+                    savedPhotos.push(newPhoto);
+                    localStorage.setItem('duniaMeimeiPhotos', JSON.stringify(savedPhotos));
+                    
+                    createGalleryItem(newPhoto.url, newPhoto.category, newPhoto.id);
+                    fileInput.value = '';
+                    alert(`Foto berhasil disimpan ke album: ${selectedCat}`);
+                }
+                reader.readAsDataURL(file);
+            } else {
+                alert("Pilih foto terlebih dahulu!");
+            }
+        }
+
+        // Membuat elemen foto di layar
+        function createGalleryItem(url, category, id = null) {
             const galleryGrid = document.getElementById('galleryGrid');
             const div = document.createElement('div');
             div.className = 'gallery-item';
             div.setAttribute('data-category', category);
-            div.onclick = function() { openModal(this); };
-            div.innerHTML = `<img src="${url}">`;
+            if (id) div.id = `photo-${id}`;
+            
+            const img = document.createElement('img');
+            img.src = url;
+            img.onclick = function() { openModal(img); }; 
+            div.appendChild(img);
+
+            // Tambahkan tombol hapus KHUSUS untuk foto yang diupload (punya ID)
+            if (id) {
+                const delBtn = document.createElement('button');
+                delBtn.className = 'btn-delete-foto';
+                delBtn.innerHTML = '<i class="fas fa-trash"></i>';
+                delBtn.onclick = function(e) {
+                    e.stopPropagation();
+                    deletePhoto(id);
+                };
+                div.appendChild(delBtn);
+            }
+            
             galleryGrid.insertBefore(div, galleryGrid.firstChild);
             filterImages(currentFilter);
-            alert(`Foto berhasil diupload ke album: ${category}`);
         }
 
-        // Blog Functions (Simplified)
+        // Fitur Hapus Foto
+        function deletePhoto(id) {
+            if(confirm("Yakin mau menghapus foto ini selamanya?")) {
+                savedPhotos = savedPhotos.filter(photo => photo.id !== id);
+                localStorage.setItem('duniaMeimeiPhotos', JSON.stringify(savedPhotos));
+                const photoElement = document.getElementById(`photo-${id}`);
+                if(photoElement) photoElement.remove();
+            }
+        }
+
+        // --- BLOG FUNCTIONS ---
         function toggleForm(formId) { const form = document.getElementById(formId); form.style.display = (form.style.display === "block") ? "none" : "block"; }
+        
         function renderQuotes() {
             const grid = document.getElementById('quoteGrid'); grid.innerHTML = '';
             quotesData.forEach(q => { const card = document.createElement('div'); card.className = 'quote-card'; card.innerText = `"${q}"`; grid.prepend(card); });
         }
         function addQuote() { const input = document.getElementById('quoteInput'); if(input.value) { quotesData.push(input.value); renderQuotes(); input.value = ''; } }
+        
+        // Render Artikel Tanpa Gambar
         function renderArticles(type, data) {
             const container = document.getElementById(type + 'Scroll'); container.innerHTML = '';
             data.forEach(item => {
                 const card = document.createElement('div'); card.className = 'article-card';
                 card.onclick = () => openArticleDetail(item);
-                card.innerHTML = `<img src="${item.img}" class="article-img"><div class="article-info"><div class="article-title">${item.title}</div><div class="article-meta">${item.date}</div></div>`;
+                // Hanya menampilkan teks judul dan tanggal
+                card.innerHTML = `<div class="article-info"><div class="article-title">${item.title}</div><div class="article-meta">${item.date}</div></div>`;
                 container.prepend(card);
             });
         }
+
+        // Add Artikel Tanpa URL Gambar
         function addArticle(type) {
             const title = document.getElementById(type + 'Title').value; const content = document.getElementById(type + 'Content').value;
             if(title && content) {
-                const newItem = { id: Date.now(), title: title, content: content, date: new Date().toLocaleDateString('id-ID'), img: "https://images.unsplash.com/photo-1506784983877-45594efa4cbe?w=500" };
-                if(type === 'curhat') { curhatData.push(newItem); renderArticles('curhat', curhatData); } else { ilmuData.push(newItem); renderArticles('ilmu', ilmuData); }
+                const newItem = { id: Date.now(), title: title, content: content, date: new Date().toLocaleDateString('id-ID') };
+                if(type === 'curhat') { curhatData.push(newItem); renderArticles('curhat', curhatData); } 
+                else { ilmuData.push(newItem); renderArticles('ilmu', ilmuData); }
                 document.getElementById(type + 'Title').value = ''; document.getElementById(type + 'Content').value = ''; toggleForm('form' + (type.charAt(0).toUpperCase() + type.slice(1)));
             }
         }
+
         function openArticleDetail(item) {
-            document.getElementById('blogMainView').style.display = 'none'; document.getElementById('articleDetailView').style.display = 'block';
-            document.getElementById('detailImg').src = item.img; document.getElementById('detailTitle').innerText = item.title;
-            document.getElementById('detailDate').innerText = item.date; document.getElementById('detailContent').innerText = item.content;
+            document.getElementById('blogMainView').style.display = 'none'; 
+            document.getElementById('articleDetailView').style.display = 'block';
+            document.getElementById('detailImg').style.display = 'none'; // Sembunyikan gambar header di detail view
+            document.getElementById('detailTitle').innerText = item.title;
+            document.getElementById('detailDate').innerText = item.date; 
+            document.getElementById('detailContent').innerText = item.content;
             window.scrollTo({top: 0, behavior: 'smooth'});
         }
+
         function renderStories() {
             const container = document.getElementById('bukuScroll'); container.innerHTML = '';
             storyData.forEach(story => {
@@ -795,6 +973,7 @@ Hidupmu kamu yang menentukan dan hanya kamu yang bisa merubahnya. <b>You're Stro
                 container.prepend(card);
             });
         }
+
         function addStory() {
             const title = document.getElementById('storyTitle').value; const chap1Title = document.getElementById('chap1Title').value;
             if(title && chap1Title) {
@@ -802,11 +981,13 @@ Hidupmu kamu yang menentukan dan hanya kamu yang bisa merubahnya. <b>You're Stro
                 storyData.push(newStory); renderStories(); toggleForm('formBuku');
             }
         }
+
         function openStoryDetail(story) {
             activeStoryId = story.id; document.getElementById('blogMainView').style.display = 'none'; document.getElementById('storyDetailView').style.display = 'block';
             document.getElementById('storyDetailCover').src = story.cover; document.getElementById('storyDetailTitle').innerText = story.title; document.getElementById('storyTotalChap').innerText = story.chapters.length;
             renderChapterList(story); window.scrollTo({top: 0, behavior: 'smooth'});
         }
+
         function renderChapterList(story) {
             const listContainer = document.getElementById('chapterListContainer'); listContainer.innerHTML = '';
             story.chapters.forEach((chap, index) => {
@@ -815,6 +996,7 @@ Hidupmu kamu yang menentukan dan hanya kamu yang bisa merubahnya. <b>You're Stro
                 item.onclick = () => readChapter(story, index); listContainer.appendChild(item);
             });
         }
+
         function addNewChapter() {
             const title = document.getElementById('newChapTitle').value; const content = document.getElementById('newChapContent').value;
             if(title && content && activeStoryId) {
@@ -823,6 +1005,7 @@ Hidupmu kamu yang menentukan dan hanya kamu yang bisa merubahnya. <b>You're Stro
                 renderChapterList(story); document.getElementById('storyTotalChap').innerText = story.chapters.length; toggleForm('formAddChap');
             }
         }
+
         function readChapter(story, index) {
             document.getElementById('storyDetailView').style.display = 'none'; document.getElementById('chapterReadView').style.display = 'block';
             const chap = story.chapters[index];
@@ -830,6 +1013,7 @@ Hidupmu kamu yang menentukan dan hanya kamu yang bisa merubahnya. <b>You're Stro
             document.getElementById('readChapDate').innerText = chap.date; document.getElementById('readChapContent').innerText = chap.content;
             window.scrollTo({top: 0, behavior: 'smooth'});
         }
+
         function closeBlogDetail() { document.getElementById('articleDetailView').style.display = 'none'; document.getElementById('storyDetailView').style.display = 'none'; document.getElementById('blogMainView').style.display = 'block'; window.scrollTo({top: 0, behavior: 'smooth'}); }
         function backToStoryDetail() { document.getElementById('chapterReadView').style.display = 'none'; document.getElementById('storyDetailView').style.display = 'block'; }
 
@@ -839,10 +1023,7 @@ Hidupmu kamu yang menentukan dan hanya kamu yang bisa merubahnya. <b>You're Stro
         }
 
         function addFavItem(category) {
-            let inputId = '';
-            let containerId = '';
-            let iconClass = '';
-            let isGrid = false;
+            let inputId = ''; let containerId = ''; let iconClass = ''; let isGrid = false;
 
             if(category === 'playlist') { inputId = 'inputSong'; containerId = 'playlistContainer'; iconClass = 'fa-music'; }
             else if(category === 'film') { inputId = 'inputFilm'; containerId = 'filmContainer'; isGrid = true; }
@@ -875,12 +1056,13 @@ Hidupmu kamu yang menentukan dan hanya kamu yang bisa merubahnya. <b>You're Stro
         function openModal(element) {
             const modal = document.getElementById("myModal");
             const modalImg = document.getElementById("img01");
-            const img = element.querySelector('img');
-            modal.style.display = "flex";
-            modalImg.src = img.src;
+            const img = element.tagName === 'IMG' ? element : element.querySelector('img');
+            if (img) {
+                modal.style.display = "flex";
+                modalImg.src = img.src;
+            }
         }
         function closeModal() { document.getElementById("myModal").style.display = "none"; }
     </script>
 </body>
-
 </html>
