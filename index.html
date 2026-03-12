@@ -258,6 +258,44 @@
         .modal-content { max-width: 90%; max-height: 80vh; border-radius: 10px; box-shadow: 0 0 20px rgba(255,255,255,0.2); }
         .close-modal { position: absolute; top: 20px; right: 40px; color: white; font-size: 40px; cursor: pointer; font-weight: bold; }
 
+        /* --- CUSTOM TABS (Garis Hijau Animasi) --- */
+        .custom-tab-wrapper {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 40px;
+            position: relative;
+            max-width: fit-content;
+            margin-left: auto;
+            margin-right: auto;
+            gap: 15px;
+            border-bottom: 2px solid #ddd; /* Garis dasar abu-abu */
+        }
+        .custom-tab-btn {
+            padding: 10px 15px;
+            border: none;
+            background: transparent;
+            font-weight: 700;
+            cursor: pointer;
+            font-size: 1.05rem;
+            color: #888;
+            transition: color 0.3s;
+            position: relative;
+            z-index: 2;
+        }
+        .custom-tab-btn.active { color: var(--primary-text); } /* Warna teks saat tab aktif */
+        .custom-tab-indicator {
+            position: absolute;
+            bottom: -2px; /* Garis hijau menimpa garis abu-abu */
+            left: 0;
+            height: 3px;
+            background-color: var(--accent-green); /* Warna hijau */
+            transition: transform 0.3s cubic-bezier(0.4, 0.0, 0.2, 1), width 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+            border-radius: 3px;
+            z-index: 1;
+        }
+        .blog-tab-pane, .fav-tab-pane { display: none; animation: fadeIn 0.4s ease; }
+        .blog-tab-pane.active, .fav-tab-pane.active { display: block; }
+
         /* --- RESPONSIVE --- */
         @media (max-width: 768px) {
             header { flex-direction: column; gap: 15px; padding: 15px; }
@@ -268,6 +306,11 @@
             .disclaimer-content { flex-direction: column; gap: 30px; }
             .social-icons-footer { gap: 20px; }
             .social-icons-footer a { font-size: 1.5rem; }
+            
+            /* Responsive Tabs untuk HP */
+            .custom-tab-wrapper { flex-wrap: wrap; border-bottom: none; }
+            .custom-tab-indicator { display: none; } /* Indikator geser dimatikan di HP agar lebih rapi */
+            .custom-tab-btn.active { color: var(--accent-green); border-bottom: 2px solid var(--accent-green); }
         }
     </style>
 </head>
@@ -464,55 +507,72 @@
                     <div class="blog-disclaimer">🚨Disclaimer: Sebagian besar tulisan ini hasil overthinking + kopi☕</div>
                 </div>
                 
-                <div class="blog-category-section">
-                    <div class="blog-cat-title">💭 Random Thoughts & Quotes</div>
-                    <p class="blog-cat-desc">Isi kepala yang muncul tiba-tiba. Bukan motivator, cuma pengamat hidup.</p>
-                    <button onclick="toggleForm('formQuote')" class="toggle-form-btn">+ Tambah Quote</button>
-                    <div id="formQuote" class="simple-form">
-                        <textarea id="quoteInput" rows="3" placeholder="Tulis quote random mu..."></textarea>
-                        <button class="btn-save" onclick="addQuote()">Simpan</button>
+                <div class="custom-tab-wrapper" id="blogTabs">
+                    <div class="custom-tab-indicator" id="blogTabIndicator"></div>
+                    <button class="custom-tab-btn active" onclick="switchTab('blog', 0, 'tabQuote')">Quotes</button>
+                    <button class="custom-tab-btn" onclick="switchTab('blog', 1, 'tabCurhat')">Curhat</button>
+                    <button class="custom-tab-btn" onclick="switchTab('blog', 2, 'tabIlmu')">Ilmu</button>
+                    <button class="custom-tab-btn" onclick="switchTab('blog', 3, 'tabBuku')">Buku</button>
+                </div>
+
+                <div id="tabQuote" class="blog-tab-pane active">
+                    <div class="blog-category-section">
+                        <div class="blog-cat-title">💭 Random Thoughts & Quotes</div>
+                        <p class="blog-cat-desc">Isi kepala yang muncul tiba-tiba. Bukan motivator, cuma pengamat hidup.</p>
+                        <button onclick="toggleForm('formQuote')" class="toggle-form-btn">+ Tambah Quote</button>
+                        <div id="formQuote" class="simple-form">
+                            <textarea id="quoteInput" rows="3" placeholder="Tulis quote random mu..."></textarea>
+                            <button class="btn-save" onclick="addQuote()">Simpan</button>
+                        </div>
+                        <div class="quote-grid" id="quoteGrid"></div>
                     </div>
-                    <div class="quote-grid" id="quoteGrid"></div>
                 </div>
                 
-                <div class="blog-category-section">
-                    <div class="blog-cat-title">😶 Curhatan Mini</div>
-                    <p class="blog-cat-desc">Curhat tapi versi digital.</p>
-                    <button onclick="toggleForm('formCurhat')" class="toggle-form-btn">+ Tambah Curhatan</button>
-                    <div id="formCurhat" class="simple-form">
-                        <input type="text" id="curhatTitle" placeholder="Judul Curhatan">
-                        <textarea id="curhatContent" rows="5" placeholder="Isi curhatan..."></textarea>
-                        <button class="btn-save" onclick="addArticle('curhat')">Simpan</button>
+                <div id="tabCurhat" class="blog-tab-pane">
+                    <div class="blog-category-section">
+                        <div class="blog-cat-title">😶 Curhatan Mini</div>
+                        <p class="blog-cat-desc">Curhat tapi versi digital.</p>
+                        <button onclick="toggleForm('formCurhat')" class="toggle-form-btn">+ Tambah Curhatan</button>
+                        <div id="formCurhat" class="simple-form">
+                            <input type="text" id="curhatTitle" placeholder="Judul Curhatan">
+                            <textarea id="curhatContent" rows="5" placeholder="Isi curhatan..."></textarea>
+                            <button class="btn-save" onclick="addArticle('curhat')">Simpan</button>
+                        </div>
+                        <div class="horizontal-scroll" id="curhatScroll"></div>
                     </div>
-                    <div class="horizontal-scroll" id="curhatScroll"></div>
                 </div>
                 
-                <div class="blog-category-section">
-                    <div class="blog-cat-title">🔬 Ilmu Pengetahuan</div>
-                    <p class="blog-cat-desc">Jangan tertipu gaya bahasanya yang serius.</p>
-                    <button onclick="toggleForm('formIlmu')" class="toggle-form-btn">+ Tambah Ilmu</button>
-                    <div id="formIlmu" class="simple-form">
-                        <input type="text" id="ilmuTitle" placeholder="Judul Pengetahuan">
-                        <textarea id="ilmuContent" rows="5" placeholder="Isi pengetahuan..."></textarea>
-                        <button class="btn-save" onclick="addArticle('ilmu')">Simpan</button>
+                <div id="tabIlmu" class="blog-tab-pane">
+                    <div class="blog-category-section">
+                        <div class="blog-cat-title">🔬 Ilmu Pengetahuan</div>
+                        <p class="blog-cat-desc">Jangan tertipu gaya bahasanya yang serius.</p>
+                        <button onclick="toggleForm('formIlmu')" class="toggle-form-btn">+ Tambah Ilmu</button>
+                        <div id="formIlmu" class="simple-form">
+                            <input type="text" id="ilmuTitle" placeholder="Judul Pengetahuan">
+                            <textarea id="ilmuContent" rows="5" placeholder="Isi pengetahuan..."></textarea>
+                            <button class="btn-save" onclick="addArticle('ilmu')">Simpan</button>
+                        </div>
+                        <div class="horizontal-scroll" id="ilmuScroll"></div>
                     </div>
-                    <div class="horizontal-scroll" id="ilmuScroll"></div>
                 </div>
                 
-                <div class="blog-category-section">
-                    <div class="blog-cat-title">📚 Buku Ku</div>
-                    <p class="blog-cat-desc">Kalau hidup terlalu nyata, aku pindah sebentar ke dunia yang aku buat sendiri.</p>
-                    <button onclick="toggleForm('formBuku')" class="toggle-form-btn">+ Tambah Cerita Baru</button>
-                    <div id="formBuku" class="simple-form">
-                        <input type="text" id="storyTitle" placeholder="Judul Cerita">
-                        <input type="file" id="storyCover" accept="image/*">
-                        <h4>Chapter 1 Awal</h4>
-                        <input type="text" id="chap1Title" placeholder="Judul Chapter 1">
-                        <textarea id="chap1Content" rows="5" placeholder="Isi Chapter 1..."></textarea>
-                        <button class="btn-save" onclick="addStory()">Terbitkan</button>
+                <div id="tabBuku" class="blog-tab-pane">
+                    <div class="blog-category-section">
+                        <div class="blog-cat-title">📚 Buku Ku</div>
+                        <p class="blog-cat-desc">Kalau hidup terlalu nyata, aku pindah sebentar ke dunia yang aku buat sendiri.</p>
+                        <button onclick="toggleForm('formBuku')" class="toggle-form-btn">+ Tambah Cerita Baru</button>
+                        <div id="formBuku" class="simple-form">
+                            <input type="text" id="storyTitle" placeholder="Judul Cerita">
+                            <input type="file" id="storyCover" accept="image/*">
+                            <h4>Chapter 1 Awal</h4>
+                            <input type="text" id="chap1Title" placeholder="Judul Chapter 1">
+                            <textarea id="chap1Content" rows="5" placeholder="Isi Chapter 1..."></textarea>
+                            <button class="btn-save" onclick="addStory()">Terbitkan</button>
+                        </div>
+                        <div class="horizontal-scroll" id="bukuScroll"></div>
                     </div>
-                    <div class="horizontal-scroll" id="bukuScroll"></div>
                 </div>
+
             </div>
             
             <div id="articleDetailView" class="blog-detail-view">
@@ -569,89 +629,87 @@
                 <div class="blog-disclaimer">⚠️ Disclaimer: Daftar ini bisa berubah tergantung mood dan kondisi mental.</div>
             </div>
 
-            <div class="fav-category-block">
-                <div class="fav-cat-header">
-                    <div class="fav-cat-title"><i class="fas fa-headphones-alt"></i> Playlist</div>
-                    <button class="fav-add-btn" onclick="toggleForm('formFavPlaylist')">+</button>
-                </div>
-                <p style="margin-bottom:15px; color:#666;">Lagu-lagu penyelamat hari.</p>
-                <div id="formFavPlaylist" class="fav-form-overlay">
-                    <input type="text" id="inputSong" class="fav-input" placeholder="Judul Lagu - Penyanyi">
-                    <button class="fav-save-btn" onclick="addFavItem('playlist')">Simpan</button>
-                </div>
-                <div class="fav-list-container" id="playlistContainer">
-                    <div class="fav-item"><div class="fav-item-content"><i class="fas fa-music fav-icon"></i><div class="fav-text">The Chainsmokers - Closer</div></div></div>
-                    <div class="fav-item"><div class="fav-item-content"><i class="fas fa-music fav-icon"></i><div class="fav-text">Demi Lovato - Cool for the Summer</div></div></div>
-                </div>
+            <div class="custom-tab-wrapper" id="favTabs">
+                <div class="custom-tab-indicator" id="favTabIndicator"></div>
+                <button class="custom-tab-btn active" onclick="switchTab('fav', 0, 'tabPlaylist')">Playlist</button>
+                <button class="custom-tab-btn" onclick="switchTab('fav', 1, 'tabFilm')">Film</button>
+                <button class="custom-tab-btn" onclick="switchTab('fav', 2, 'tabSeries')">Series</button>
+                <button class="custom-tab-btn" onclick="switchTab('fav', 3, 'tabFavBuku')">Buku</button>
+                <button class="custom-tab-btn" onclick="switchTab('fav', 4, 'tabFood')">Makanan</button>
             </div>
 
-            <div class="fav-category-block">
-                <div class="fav-cat-header">
-                    <div class="fav-cat-title"><i class="fas fa-film"></i> Film</div>
-                    <button class="fav-add-btn" onclick="toggleForm('formFavFilm')">+</button>
-                </div>
-                <p style="margin-bottom:15px; color:#666;">Teman hidup 2 jam. (Yang ditandai udah selesai ditonton).</p>
-                <div id="formFavFilm" class="fav-form-overlay">
-                    <input type="text" id="inputFilm" class="fav-input" placeholder="Judul Film">
-                    <button class="fav-save-btn" onclick="addFavItem('film')">Simpan</button>
-                </div>
-                <div class="fav-grid" id="filmContainer">
-                    <div class="movie-card watched" onclick="toggleWatched(this)">
-                        <span class="movie-title">The Godfather</span>
-                        <div class="check-circle"><i class="fas fa-check"></i></div>
+            <div id="tabPlaylist" class="fav-tab-pane active">
+                <div class="fav-category-block">
+                    <div class="fav-cat-header">
+                        <div class="fav-cat-title"><i class="fas fa-headphones-alt"></i> Playlist</div>
+                        <button class="fav-add-btn" onclick="toggleForm('formFavPlaylist')">+</button>
                     </div>
-                    <div class="movie-card" onclick="toggleWatched(this)">
-                        <span class="movie-title">The Prestige</span>
-                        <div class="check-circle"><i class="fas fa-check"></i></div>
+                    <p style="margin-bottom:15px; color:#666;">Lagu-lagu penyelamat hari.</p>
+                    <div id="formFavPlaylist" class="fav-form-overlay">
+                        <input type="text" id="inputSong" class="fav-input" placeholder="Judul Lagu - Penyanyi">
+                        <button class="fav-save-btn" onclick="addFavItem('playlist')">Simpan</button>
                     </div>
+                    <div class="fav-list-container" id="playlistContainer"></div>
                 </div>
             </div>
 
-            <div class="fav-category-block">
-                <div class="fav-cat-header">
-                    <div class="fav-cat-title"><i class="fas fa-tv"></i> Series</div>
-                    <button class="fav-add-btn" onclick="toggleForm('formFavSeries')">+</button>
-                </div>
-                <p style="margin-bottom:15px; color:#666;">Sama kaya film tapi berepisode, sekali klik tau-tau udah pagi.</p>
-                <div id="formFavSeries" class="fav-form-overlay">
-                    <input type="text" id="inputSeries" class="fav-input" placeholder="Judul Series">
-                    <button class="fav-save-btn" onclick="addFavItem('series')">Simpan</button>
-                </div>
-                <div class="fav-grid" id="seriesContainer">
-                    <div class="movie-card" onclick="toggleWatched(this)">
-                        <span class="movie-title">Stranger Things</span>
-                        <div class="check-circle"><i class="fas fa-check"></i></div>
+            <div id="tabFilm" class="fav-tab-pane">
+                <div class="fav-category-block">
+                    <div class="fav-cat-header">
+                        <div class="fav-cat-title"><i class="fas fa-film"></i> Film</div>
+                        <button class="fav-add-btn" onclick="toggleForm('formFavFilm')">+</button>
                     </div>
+                    <p style="margin-bottom:15px; color:#666;">Teman hidup 2 jam. (Yang ditandai udah selesai ditonton).</p>
+                    <div id="formFavFilm" class="fav-form-overlay">
+                        <input type="text" id="inputFilm" class="fav-input" placeholder="Judul Film">
+                        <button class="fav-save-btn" onclick="addFavItem('film')">Simpan</button>
+                    </div>
+                    <div class="fav-grid" id="filmContainer"></div>
                 </div>
             </div>
 
-            <div class="fav-category-block">
-                <div class="fav-cat-header">
-                    <div class="fav-cat-title"><i class="fas fa-book-open"></i> Buku</div>
-                    <button class="fav-add-btn" onclick="toggleForm('formFavBuku')">+</button>
-                </div>
-                <p style="margin-bottom:15px; color:#666;">Tempat kabur paling aman.</p>
-                <div id="formFavBuku" class="fav-form-overlay">
-                    <input type="text" id="inputBuku" class="fav-input" placeholder="Judul Buku">
-                    <button class="fav-save-btn" onclick="addFavItem('buku')">Simpan</button>
-                </div>
-                <div class="fav-list-container" id="bukuContainer">
-                    <div class="fav-item"><div class="fav-item-content"><i class="fas fa-book fav-icon"></i><div class="fav-text">Galaksi</div></div></div>
+            <div id="tabSeries" class="fav-tab-pane">
+                <div class="fav-category-block">
+                    <div class="fav-cat-header">
+                        <div class="fav-cat-title"><i class="fas fa-tv"></i> Series</div>
+                        <button class="fav-add-btn" onclick="toggleForm('formFavSeries')">+</button>
+                    </div>
+                    <p style="margin-bottom:15px; color:#666;">Sama kaya film tapi berepisode, sekali klik tau-tau udah pagi.</p>
+                    <div id="formFavSeries" class="fav-form-overlay">
+                        <input type="text" id="inputSeries" class="fav-input" placeholder="Judul Series">
+                        <button class="fav-save-btn" onclick="addFavItem('series')">Simpan</button>
+                    </div>
+                    <div class="fav-grid" id="seriesContainer"></div>
                 </div>
             </div>
 
-            <div class="fav-category-block">
-                <div class="fav-cat-header">
-                    <div class="fav-cat-title"><i class="fas fa-utensils"></i> Makanan</div>
-                    <button class="fav-add-btn" onclick="toggleForm('formFavFood')">+</button>
+            <div id="tabFavBuku" class="fav-tab-pane">
+                <div class="fav-category-block">
+                    <div class="fav-cat-header">
+                        <div class="fav-cat-title"><i class="fas fa-book-open"></i> Buku</div>
+                        <button class="fav-add-btn" onclick="toggleForm('formFavBuku')">+</button>
+                    </div>
+                    <p style="margin-bottom:15px; color:#666;">Tempat kabur paling aman.</p>
+                    <div id="formFavBuku" class="fav-form-overlay">
+                        <input type="text" id="inputBuku" class="fav-input" placeholder="Judul Buku">
+                        <button class="fav-save-btn" onclick="addFavItem('buku')">Simpan</button>
+                    </div>
+                    <div class="fav-list-container" id="bukuContainer"></div>
                 </div>
-                <p style="margin-bottom:15px; color:#666;">Selesaikan lapar dulu, baru selesaikan masalah..</p>
-                <div id="formFavFood" class="fav-form-overlay">
-                    <input type="text" id="inputFood" class="fav-input" placeholder="Nama Makanan">
-                    <button class="fav-save-btn" onclick="addFavItem('food')">Simpan</button>
-                </div>
-                <div class="fav-list-container" id="foodContainer">
-                    <div class="fav-item"><div class="fav-item-content"><i class="fas fa-hamburger fav-icon"></i><div class="fav-text">Bakso Sapi</div></div></div>
+            </div>
+
+            <div id="tabFood" class="fav-tab-pane">
+                <div class="fav-category-block">
+                    <div class="fav-cat-header">
+                        <div class="fav-cat-title"><i class="fas fa-utensils"></i> Makanan</div>
+                        <button class="fav-add-btn" onclick="toggleForm('formFavFood')">+</button>
+                    </div>
+                    <p style="margin-bottom:15px; color:#666;">Selesaikan lapar dulu, baru selesaikan masalah..</p>
+                    <div id="formFavFood" class="fav-form-overlay">
+                        <input type="text" id="inputFood" class="fav-input" placeholder="Nama Makanan">
+                        <button class="fav-save-btn" onclick="addFavItem('food')">Simpan</button>
+                    </div>
+                    <div class="fav-list-container" id="foodContainer"></div>
                 </div>
             </div>
         </section>
@@ -689,21 +747,22 @@ Teruslah melangkah, sekecil apa pun itu. Jangan remehkan jarak yang sudah kamu t
                     <p style="margin-bottom:15px;">Target aku nggak muluk-muluk:</p>
                     <ul class="goals-list">
                         <li><i class="fas fa-heart"></i> Orang tua dan keluarga Panjang umur (Amin...)</li>
-                        <li><i class="fas fa-graduation-cap"></i> Sukses dalam kehidupan, terutama karir dan cinta</li>
+                        <li><i class="fas fa-graduation-cap"></i> Sukses dalam karir, cinta, dan kehidupan</li>
+                        <li><i class="fas fa-check-double"></i> Semua rencana kecil maupun besar, terwujud satu per satu</li>
+                        <li><i class="fas fa-wallet"></i> Saldo ATM stabil meski gaya hidup nggak stabil</li>
+                        <li><i class="fas fa-rocket"></i> Karir melesat, kerja cerdas, gaji kelas atas</li>
+                        <li><i class="fas fa-crown"></i> Jadi versi diri yang paling mandiri dan berkelas</li>
                         <li><i class="fas fa-shield-alt"></i> Hidup aman (uang banyak, koneksi banyak)</li>
                         <li><i class="fas fa-briefcase"></i> Kerja yang bikin capek tapi masuk akal</li>
                         <li><i class="fas fa-laugh-beam"></i> Ketawa lebih sering dari nangis</li>
                         <li><i class="fas fa-user-friends"></i> Diberkati dengan hadirnya orang/teman yang baik</li>
                         <li><i class="fas fa-globe"></i> Jalan-jalan ke tempat yang aku mau (keliling dunia)</li>
-                        <li><i class="fas fa-ring"></i> Dapat jodoh terbaik sesuai yang kumau, nerima apa adanya, dan panjang umur</li>
+                        <li><i class="fas fa-gem"></i> Jadi cewek mandiri yang disegani tapi tetap rendah hati</li>
+                        <li><i class="fas fa-smile-wink"></i> Dicintai dengan tulus tanpa perlu pura-pura jadi orang lain</li>
+                        <li><i class="fas fa-infinity"></i> Dapat jodoh yang satu server, satu keresahan, dan nerima apa adanya</li>
+                        <li><i class="fas fa-ring"></i> Dapat jodoh terbaik sesuai yang kumau, bisa ngimbangi, dan panjang umur</li>
                     </ul>
                     <br>
-                    <p><b>Bonus kalau bisa:</b></p>
-                    <ul class="checklist">
-                        <li><i class="fas fa-plane"></i> Jalan-jalan tanpa mikir kerja</li>
-                        <li><i class="fas fa-bed"></i> Bangun tidur tanpa panik</li>
-                        <li><i class="fas fa-coffee"></i> Hidup damai dan tentram</li>
-                    </ul>
                 </div>
 
                 <div style="flex:1; min-width:300px;">
@@ -768,34 +827,92 @@ Teruslah melangkah, sekecil apa pun itu. Jangan remehkan jarak yang sudah kamu t
     </div>
 
     <script>
-        // --- JAVASCRIPT: INTERAKSI ---
-        
+        // --- JAVASCRIPT: INTERAKSI & LOCAL STORAGE ---
+
+        // Fungsi Tab (Blog & Favorit)
+        function switchTab(group, index, targetId) {
+            const wrapper = document.getElementById(group + 'Tabs');
+            const btns = wrapper.querySelectorAll('.custom-tab-btn');
+            
+            // Ubah class active
+            btns.forEach((btn, i) => {
+                if(i === index) btn.classList.add('active');
+                else btn.classList.remove('active');
+            });
+
+            // Animasi garis indikator
+            const activeBtn = btns[index];
+            const indicator = document.getElementById(group + 'TabIndicator');
+            if(indicator) {
+                indicator.style.width = activeBtn.offsetWidth + 'px';
+                indicator.style.transform = `translateX(${activeBtn.offsetLeft}px)`;
+            }
+
+            // Ganti konten
+            const allContents = document.querySelectorAll(`.${group}-tab-pane`);
+            allContents.forEach(content => content.classList.remove('active'));
+            document.getElementById(targetId).classList.add('active');
+        }
+
+        function updateIndicator(group) {
+            const wrapper = document.getElementById(group + 'Tabs');
+            if(!wrapper) return;
+            const activeBtn = wrapper.querySelector('.custom-tab-btn.active');
+            const indicator = document.getElementById(group + 'TabIndicator');
+            if(activeBtn && indicator) {
+                indicator.style.width = activeBtn.offsetWidth + 'px';
+                indicator.style.transform = `translateX(${activeBtn.offsetLeft}px)`;
+            }
+        }
+
         // Data Kategori Awal Galeri
         let categories = ["Semua", "Aku", "Keluarga", "Temen"];
         let currentFilter = "Semua";
 
-        // Blog Data Dummy (GAMBAR DIHILANGKAN)
-        let quotesData = ["Capek itu wajar. Aneh kalau nggak.", "Tidur adalah demo paling damai menolak kenyataan.", "Kadang kita butuh tidur, bukan pencerahan."];
-        
-        let curhatData = [
-            { id: 1, title: "Rapat Lagi, Rapat Terus", date: "23 Des 2025", content: "Hari ini rapat sejam penuh, hasilnya satu kalimat yang sebenernya bisa dikirim lewat chat." },
-        ];
-        
-        let ilmuData = [{ id: 1, title: "Kenapa Langit Biru?", date: "20 Jan 2026", content: "Sistem informasi adalah gabungan antara manusia, teknologi, data, dan proses yang bekerja bersama untuk mengumpulkan, mengolah, menyimpan, dan menyajikan informasi agar bisa digunakan dalam pengambilan keputusan. Sistem ini bukan hanya soal komputer atau aplikasi, tetapi tentang bagaimana data diubah menjadi informasi yang berguna dan akurat. Dalam praktiknya, sistem informasi membantu meningkatkan efisiensi kerja, mengurangi kesalahan, mempercepat proses bisnis, serta membuat alur kerja menjadi lebih terstruktur. Contoh sistem informasi bisa kita temui sehari-hari, seperti sistem akademik kampus, sistem kasir di toko, sistem absensi karyawan, hingga aplikasi perbankan. Di dunia kerja modern, pemahaman tentang sistem informasi menjadi penting karena hampir semua organisasi bergantung pada sistem ini untuk menjalankan operasional dan mendukung keputusan berbasis data." }];
-        
-        let storyData = [{ id: 1, title: "Senja di Ujung Gang", cover: "https://images.unsplash.com/photo-1476275466078-4007374efbbe?w=500", chapters: [{ title: "Chapter 1: Pertemuan", date: "10 Jan 2026", content: "Di ujung gang itu..." }, { title: "Chapter 2: Kehilangan", date: "12 Jan 2026", content: "Tidak ada yang menyangka..." }] }];
+        // --- BLOG DATA DENGAN LOCAL STORAGE ---
+        let quotesData = JSON.parse(localStorage.getItem('meimeiQuotes')) || ["Capek itu wajar. Aneh kalau nggak.", "Tidur adalah demo paling damai menolak kenyataan.", "Kadang kita butuh tidur, bukan pencerahan."];
+        let curhatData = JSON.parse(localStorage.getItem('meimeiCurhat')) || [{ id: 1, title: "Rapat Lagi, Rapat Terus", date: "23 Des 2025", content: "Hari ini rapat sejam penuh, hasilnya satu kalimat yang sebenernya bisa dikirim lewat chat." }];
+        let ilmuData = JSON.parse(localStorage.getItem('meimeiIlmu')) || [{ id: 1, title: "Kenapa Langit Biru?", date: "20 Jan 2026", content: "Sistem informasi adalah gabungan antara manusia, teknologi, data, dan proses yang bekerja bersama untuk mengumpulkan, mengolah, menyimpan, dan menyajikan informasi agar bisa digunakan dalam pengambilan keputusan. Sistem ini bukan hanya soal komputer atau aplikasi, tetapi tentang bagaimana data diubah menjadi informasi yang berguna dan akurat. Dalam praktiknya, sistem informasi membantu meningkatkan efisiensi kerja, mengurangi kesalahan, mempercepat proses bisnis, serta membuat alur kerja menjadi lebih terstruktur. Contoh sistem informasi bisa kita temui sehari-hari, seperti sistem akademik kampus, sistem kasir di toko, sistem absensi karyawan, hingga aplikasi perbankan. Di dunia kerja modern, pemahaman tentang sistem informasi menjadi penting karena hampir semua organisasi bergantung pada sistem ini untuk menjalankan operasional dan mendukung keputusan berbasis data." }];
+        let storyData = JSON.parse(localStorage.getItem('meimeiStory')) || [{ id: 1, title: "Senja di Ujung Gang", cover: "https://images.unsplash.com/photo-1476275466078-4007374efbbe?w=500", chapters: [{ title: "Chapter 1: Pertemuan", date: "10 Jan 2026", content: "Di ujung gang itu..." }, { title: "Chapter 2: Kehilangan", date: "12 Jan 2026", content: "Tidak ada yang menyangka..." }] }];
         let activeStoryId = null;
+
+        function saveBlogData() {
+            localStorage.setItem('meimeiQuotes', JSON.stringify(quotesData));
+            localStorage.setItem('meimeiCurhat', JSON.stringify(curhatData));
+            localStorage.setItem('meimeiIlmu', JSON.stringify(ilmuData));
+            localStorage.setItem('meimeiStory', JSON.stringify(storyData));
+        }
+
+        // --- FAVORIT DATA DENGAN LOCAL STORAGE ---
+        let favData = JSON.parse(localStorage.getItem('meimeiFavData')) || {
+            playlist: ["The Chainsmokers - Closer", "Demi Lovato - Cool for the Summer"],
+            film: [{title: "The Godfather", watched: true}, {title: "The Prestige", watched: false}],
+            series: [{title: "Stranger Things", watched: false}],
+            buku: ["Galaksi"],
+            food: ["Bakso Sapi"]
+        };
+
+        function saveFavData() {
+            localStorage.setItem('meimeiFavData', JSON.stringify(favData));
+        }
 
         // --- Inisialisasi Data Galeri Local Storage ---
         let savedPhotos = JSON.parse(localStorage.getItem('duniaMeimeiPhotos')) || [];
 
         document.addEventListener('DOMContentLoaded', () => {
             renderCategories();
-            loadSavedPhotos(); // Load foto galeri
+            loadSavedPhotos(); 
             renderQuotes();
             renderArticles('curhat', curhatData);
             renderArticles('ilmu', ilmuData);
             renderStories();
+            renderFavs(); 
+            
+            // Inisialisasi indikator tab saat pertama dimuat
+            setTimeout(() => {
+                updateIndicator('blog');
+                updateIndicator('fav');
+            }, 100);
         });
 
         // Navigation
@@ -809,6 +926,12 @@ Teruslah melangkah, sekecil apa pun itu. Jangan remehkan jarak yang sudah kamu t
             event.target.classList.add('active');
             
             window.scrollTo({top: 0, behavior: 'smooth'});
+
+            // Update posisi garis tab setiap kali buka halaman blog atau favorit
+            setTimeout(() => {
+                if(pageId === 'blog') updateIndicator('blog');
+                if(pageId === 'favorit') updateIndicator('fav');
+            }, 50);
         }
 
         // --- GALERI FUNCTIONS ---
@@ -849,14 +972,12 @@ Teruslah melangkah, sekecil apa pun itu. Jangan remehkan jarak yang sudah kamu t
             } else { alert('Kategori sudah ada atau kosong!'); }
         }
 
-        // Menampilkan foto yang sudah tersimpan
         function loadSavedPhotos() {
             savedPhotos.forEach(photo => {
                 createGalleryItem(photo.url, photo.category, photo.id);
             });
         }
 
-        // Logika Upload Tombol
         function uploadFoto() {
             const fileInput = document.getElementById('imageInput');
             const file = fileInput.files[0];
@@ -878,12 +999,9 @@ Teruslah melangkah, sekecil apa pun itu. Jangan remehkan jarak yang sudah kamu t
                     alert(`Foto berhasil disimpan ke album: ${selectedCat}`);
                 }
                 reader.readAsDataURL(file);
-            } else {
-                alert("Pilih foto terlebih dahulu!");
-            }
+            } else { alert("Pilih foto terlebih dahulu!"); }
         }
 
-        // Membuat elemen foto di layar
         function createGalleryItem(url, category, id = null) {
             const galleryGrid = document.getElementById('galleryGrid');
             const div = document.createElement('div');
@@ -896,7 +1014,6 @@ Teruslah melangkah, sekecil apa pun itu. Jangan remehkan jarak yang sudah kamu t
             img.onclick = function() { openModal(img); }; 
             div.appendChild(img);
 
-            // Tambahkan tombol hapus KHUSUS untuk foto yang diupload (punya ID)
             if (id) {
                 const delBtn = document.createElement('button');
                 delBtn.className = 'btn-delete-foto';
@@ -907,12 +1024,10 @@ Teruslah melangkah, sekecil apa pun itu. Jangan remehkan jarak yang sudah kamu t
                 };
                 div.appendChild(delBtn);
             }
-            
             galleryGrid.insertBefore(div, galleryGrid.firstChild);
             filterImages(currentFilter);
         }
 
-        // Fitur Hapus Foto
         function deletePhoto(id) {
             if(confirm("Yakin mau menghapus foto ini selamanya?")) {
                 savedPhotos = savedPhotos.filter(photo => photo.id !== id);
@@ -929,27 +1044,34 @@ Teruslah melangkah, sekecil apa pun itu. Jangan remehkan jarak yang sudah kamu t
             const grid = document.getElementById('quoteGrid'); grid.innerHTML = '';
             quotesData.forEach(q => { const card = document.createElement('div'); card.className = 'quote-card'; card.innerText = `"${q}"`; grid.prepend(card); });
         }
-        function addQuote() { const input = document.getElementById('quoteInput'); if(input.value) { quotesData.push(input.value); renderQuotes(); input.value = ''; } }
         
-        // Render Artikel Tanpa Gambar
+        function addQuote() { 
+            const input = document.getElementById('quoteInput'); 
+            if(input.value) { 
+                quotesData.push(input.value); 
+                saveBlogData();
+                renderQuotes(); 
+                input.value = ''; 
+                toggleForm('formQuote');
+            } 
+        }
+        
         function renderArticles(type, data) {
             const container = document.getElementById(type + 'Scroll'); container.innerHTML = '';
             data.forEach(item => {
                 const card = document.createElement('div'); card.className = 'article-card';
                 card.onclick = () => openArticleDetail(item);
-                // Hanya menampilkan teks judul dan tanggal
                 card.innerHTML = `<div class="article-info"><div class="article-title">${item.title}</div><div class="article-meta">${item.date}</div></div>`;
                 container.prepend(card);
             });
         }
 
-        // Add Artikel Tanpa URL Gambar
         function addArticle(type) {
             const title = document.getElementById(type + 'Title').value; const content = document.getElementById(type + 'Content').value;
             if(title && content) {
                 const newItem = { id: Date.now(), title: title, content: content, date: new Date().toLocaleDateString('id-ID') };
-                if(type === 'curhat') { curhatData.push(newItem); renderArticles('curhat', curhatData); } 
-                else { ilmuData.push(newItem); renderArticles('ilmu', ilmuData); }
+                if(type === 'curhat') { curhatData.push(newItem); saveBlogData(); renderArticles('curhat', curhatData); } 
+                else { ilmuData.push(newItem); saveBlogData(); renderArticles('ilmu', ilmuData); }
                 document.getElementById(type + 'Title').value = ''; document.getElementById(type + 'Content').value = ''; toggleForm('form' + (type.charAt(0).toUpperCase() + type.slice(1)));
             }
         }
@@ -957,7 +1079,7 @@ Teruslah melangkah, sekecil apa pun itu. Jangan remehkan jarak yang sudah kamu t
         function openArticleDetail(item) {
             document.getElementById('blogMainView').style.display = 'none'; 
             document.getElementById('articleDetailView').style.display = 'block';
-            document.getElementById('detailImg').style.display = 'none'; // Sembunyikan gambar header di detail view
+            document.getElementById('detailImg').style.display = 'none'; 
             document.getElementById('detailTitle').innerText = item.title;
             document.getElementById('detailDate').innerText = item.date; 
             document.getElementById('detailContent').innerText = item.content;
@@ -978,7 +1100,10 @@ Teruslah melangkah, sekecil apa pun itu. Jangan remehkan jarak yang sudah kamu t
             const title = document.getElementById('storyTitle').value; const chap1Title = document.getElementById('chap1Title').value;
             if(title && chap1Title) {
                 const newStory = { id: Date.now(), title: title, cover: "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?w=500", chapters: [{ title: "Chapter 1: " + chap1Title, date: new Date().toLocaleDateString('id-ID'), content: document.getElementById('chap1Content').value }] };
-                storyData.push(newStory); renderStories(); toggleForm('formBuku');
+                storyData.push(newStory); 
+                saveBlogData();
+                renderStories(); 
+                toggleForm('formBuku');
             }
         }
 
@@ -1002,6 +1127,7 @@ Teruslah melangkah, sekecil apa pun itu. Jangan remehkan jarak yang sudah kamu t
             if(title && content && activeStoryId) {
                 const story = storyData.find(s => s.id === activeStoryId);
                 story.chapters.push({ title: `Chapter ${story.chapters.length + 1}: ${title}`, date: new Date().toLocaleDateString('id-ID'), content: content });
+                saveBlogData();
                 renderChapterList(story); document.getElementById('storyTotalChap').innerText = story.chapters.length; toggleForm('formAddChap');
             }
         }
@@ -1017,36 +1143,77 @@ Teruslah melangkah, sekecil apa pun itu. Jangan remehkan jarak yang sudah kamu t
         function closeBlogDetail() { document.getElementById('articleDetailView').style.display = 'none'; document.getElementById('storyDetailView').style.display = 'none'; document.getElementById('blogMainView').style.display = 'block'; window.scrollTo({top: 0, behavior: 'smooth'}); }
         function backToStoryDetail() { document.getElementById('chapterReadView').style.display = 'none'; document.getElementById('storyDetailView').style.display = 'block'; }
 
+
         // --- FAVORIT LOGIC ---
-        function toggleWatched(card) {
-            card.classList.toggle('watched');
+        function renderFavs() {
+            // Render Playlist
+            const playlistContainer = document.getElementById('playlistContainer');
+            playlistContainer.innerHTML = '';
+            favData.playlist.forEach(item => {
+                playlistContainer.innerHTML += `<div class="fav-item"><div class="fav-item-content"><i class="fas fa-music fav-icon"></i><div class="fav-text">${item}</div></div></div>`;
+            });
+
+            // Render Film
+            const filmContainer = document.getElementById('filmContainer');
+            filmContainer.innerHTML = '';
+            favData.film.forEach((item, index) => {
+                filmContainer.innerHTML += `<div class="movie-card ${item.watched ? 'watched' : ''}" onclick="toggleFavWatched('film', ${index})">
+                    <span class="movie-title">${item.title}</span>
+                    <div class="check-circle"><i class="fas fa-check"></i></div>
+                </div>`;
+            });
+
+            // Render Series
+            const seriesContainer = document.getElementById('seriesContainer');
+            seriesContainer.innerHTML = '';
+            favData.series.forEach((item, index) => {
+                seriesContainer.innerHTML += `<div class="movie-card ${item.watched ? 'watched' : ''}" onclick="toggleFavWatched('series', ${index})">
+                    <span class="movie-title">${item.title}</span>
+                    <div class="check-circle"><i class="fas fa-check"></i></div>
+                </div>`;
+            });
+
+            // Render Buku
+            const bukuContainer = document.getElementById('bukuContainer');
+            bukuContainer.innerHTML = '';
+            favData.buku.forEach(item => {
+                bukuContainer.innerHTML += `<div class="fav-item"><div class="fav-item-content"><i class="fas fa-book fav-icon"></i><div class="fav-text">${item}</div></div></div>`;
+            });
+
+            // Render Food
+            const foodContainer = document.getElementById('foodContainer');
+            foodContainer.innerHTML = '';
+            favData.food.forEach(item => {
+                foodContainer.innerHTML += `<div class="fav-item"><div class="fav-item-content"><i class="fas fa-hamburger fav-icon"></i><div class="fav-text">${item}</div></div></div>`;
+            });
+        }
+
+        function toggleFavWatched(category, index) {
+            favData[category][index].watched = !favData[category][index].watched;
+            saveFavData();
+            renderFavs();
         }
 
         function addFavItem(category) {
-            let inputId = ''; let containerId = ''; let iconClass = ''; let isGrid = false;
-
-            if(category === 'playlist') { inputId = 'inputSong'; containerId = 'playlistContainer'; iconClass = 'fa-music'; }
-            else if(category === 'film') { inputId = 'inputFilm'; containerId = 'filmContainer'; isGrid = true; }
-            else if(category === 'series') { inputId = 'inputSeries'; containerId = 'seriesContainer'; isGrid = true; }
-            else if(category === 'buku') { inputId = 'inputBuku'; containerId = 'bukuContainer'; iconClass = 'fa-book'; }
-            else if(category === 'food') { inputId = 'inputFood'; containerId = 'foodContainer'; iconClass = 'fa-hamburger'; }
+            let inputId = ''; 
+            if(category === 'playlist') inputId = 'inputSong'; 
+            else if(category === 'film') inputId = 'inputFilm'; 
+            else if(category === 'series') inputId = 'inputSeries'; 
+            else if(category === 'buku') inputId = 'inputBuku'; 
+            else if(category === 'food') inputId = 'inputFood'; 
 
             const input = document.getElementById(inputId);
-            const container = document.getElementById(containerId);
 
-            if(input.value) {
-                if(isGrid) {
-                    const card = document.createElement('div');
-                    card.className = 'movie-card';
-                    card.onclick = function() { toggleWatched(this) };
-                    card.innerHTML = `<span class="movie-title">${input.value}</span><div class="check-circle"><i class="fas fa-check"></i></div>`;
-                    container.appendChild(card);
+            if(input.value.trim()) {
+                if(category === 'film' || category === 'series') {
+                    favData[category].push({ title: input.value.trim(), watched: false });
                 } else {
-                    const item = document.createElement('div');
-                    item.className = 'fav-item';
-                    item.innerHTML = `<div class="fav-item-content"><i class="fas ${iconClass} fav-icon"></i><div class="fav-text">${input.value}</div></div>`;
-                    container.appendChild(item);
+                    favData[category].push(input.value.trim());
                 }
+                
+                saveFavData();
+                renderFavs();
+                
                 input.value = '';
                 toggleForm('formFav' + category.charAt(0).toUpperCase() + category.slice(1));
             }
@@ -1066,11 +1233,3 @@ Teruslah melangkah, sekecil apa pun itu. Jangan remehkan jarak yang sudah kamu t
     </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
