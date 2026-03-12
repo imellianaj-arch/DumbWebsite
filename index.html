@@ -258,6 +258,39 @@
         .modal-content { max-width: 90%; max-height: 80vh; border-radius: 10px; box-shadow: 0 0 20px rgba(255,255,255,0.2); }
         .close-modal { position: absolute; top: 20px; right: 40px; color: white; font-size: 40px; cursor: pointer; font-weight: bold; }
 
+        /* Tombol Navigasi Modal */
+        .prev-modal, .next-modal {
+            cursor: pointer;
+            position: absolute;
+            top: 50%;
+            width: auto;
+            padding: 16px;
+            margin-top: -25px;
+            color: white;
+            font-weight: bold;
+            font-size: 35px;
+            transition: 0.3s ease;
+            user-select: none;
+            z-index: 1001;
+            text-decoration: none;
+            background-color: rgba(0,0,0,0.5);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+        }
+        .prev-modal { left: 5%; }
+        .next-modal { right: 5%; }
+        .prev-modal:hover, .next-modal:hover { background-color: var(--accent-green); color: white; transform: scale(1.1); }
+        
+        /* Penyesuaian gambar modal agar tidak menutupi panah di HP */
+        @media (max-width: 768px) {
+            .prev-modal { left: 2%; }
+            .next-modal { right: 2%; }
+        }
+
         /* --- CUSTOM TABS (Garis Hijau Animasi) --- */
         .custom-tab-wrapper {
             display: flex;
@@ -823,7 +856,9 @@ Teruslah melangkah, sekecil apa pun itu. Jangan remehkan jarak yang sudah kamu t
 
     <div id="myModal" class="modal">
         <span class="close-modal" onclick="closeModal()">&times;</span>
+        <a class="prev-modal" onclick="showPrevImage()">&#10094;</a>
         <img class="modal-content" id="img01">
+        <a class="next-modal" onclick="showNextImage()">&#10095;</a>
     </div>
 
     <script>
@@ -1220,16 +1255,61 @@ Teruslah melangkah, sekecil apa pun itu. Jangan remehkan jarak yang sudah kamu t
         }
 
         // Modal Image
+// --- LOGIKA MODAL GALERI & NAVIGASI KEYBOARD ---
+        let currentVisibleImages = [];
+        let currentModalIndex = 0;
+
         function openModal(element) {
             const modal = document.getElementById("myModal");
             const modalImg = document.getElementById("img01");
             const img = element.tagName === 'IMG' ? element : element.querySelector('img');
+            
             if (img) {
+                // Ambil SEMUA foto yang sedang tampil (sesuai filter kategori saat ini)
+                const galleryItems = document.querySelectorAll('.gallery-item:not(.hidden) img');
+                currentVisibleImages = Array.from(galleryItems);
+                
+                // Cari index foto yang sedang diklik
+                currentModalIndex = currentVisibleImages.indexOf(img);
+
                 modal.style.display = "flex";
                 modalImg.src = img.src;
             }
         }
+
         function closeModal() { document.getElementById("myModal").style.display = "none"; }
+
+        function showNextImage() {
+            if (currentVisibleImages.length > 0) {
+                // Pindah ke index selanjutnya, kalau udah di akhir balik ke awal (0)
+                currentModalIndex = (currentModalIndex + 1) % currentVisibleImages.length;
+                document.getElementById("img01").src = currentVisibleImages[currentModalIndex].src;
+            }
+        }
+
+        function showPrevImage() {
+            if (currentVisibleImages.length > 0) {
+                // Pindah ke index sebelumnya, kalau di awal (0) pindah ke paling akhir
+                currentModalIndex = (currentModalIndex - 1 + currentVisibleImages.length) % currentVisibleImages.length;
+                document.getElementById("img01").src = currentVisibleImages[currentModalIndex].src;
+            }
+        }
+
+        // --- DETEKSI TOMBOL KEYBOARD PADA MODAL ---
+        document.addEventListener('keydown', function(event) {
+            const modal = document.getElementById("myModal");
+            // Hanya jalankan jika modal sedang terbuka
+            if (modal.style.display === "flex") {
+                if (event.key === "ArrowRight") {
+                    showNextImage();
+                } else if (event.key === "ArrowLeft") {
+                    showPrevImage();
+                } else if (event.key === "Escape") { // Bonus: tekan tombol ESC untuk keluar modal
+                    closeModal();
+                }
+            }
+        });
     </script>
 </body>
 </html>
+
